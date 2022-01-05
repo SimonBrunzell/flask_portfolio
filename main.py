@@ -112,12 +112,16 @@ def compscitools():
     return render_template('compscitools.html')
 @app.route('/binary_calc/',methods=['GET', 'POST'])
 def binary_calc():
+    output = [x+1 for x in range(10)]
+    target = 2
     if request.form:
         length=request.form.get("length")
+        target = request.form.get('target')
         if len(str(length)) != 0:
             output = sorted(random.sample(range(0,200),int(length)))
-            return render_template("compscitools.html",output=output)
-    return render_template("compscitools.html", output=[1,2,3,4,5])
+        if len(str(target)) != 0:
+            target = target
+    return render_template("compscitools.html",output =output, jsOutput = json.dumps(output), target = target)
 @app.route('/courserecoms/')
 def courserecoms():
     return render_template('courserecoms.html')
