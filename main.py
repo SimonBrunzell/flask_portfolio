@@ -1,10 +1,10 @@
 # import "packages" from flask
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 import requests
 import json
 import random
 from crud.app_crud import app_crud
-
+import math
 # create a Flask instance
 from __init__ import app
 
@@ -106,6 +106,22 @@ def page_not_found(e):
 @app.route('/flashcards/')
 def flashcards():
     return render_template('flashcards.html')
+
+@app.route('/compscitools/')
+def compscitools():
+    return render_template('compscitools.html')
+@app.route('/binary_calc/',methods=['GET', 'POST'])
+def binary_calc():
+    if request.form:
+        length=request.form.get("length")
+        if len(str(length)) != 0:
+            output = sorted(random.sample(range(0,200),int(length)))
+            return render_template("compscitools.html",output=output)
+    return render_template("compscitools.html", output=[1,2,3,4,5])
+@app.route('/courserecoms/')
+def courserecoms():
+    return render_template('courserecoms.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True, port="5002")

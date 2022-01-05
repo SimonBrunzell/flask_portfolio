@@ -1,0 +1,170 @@
+{% extends "layouts/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+{% block body %}
+
+<div id="page-container" class="green-theme">
+<div class="theme-toggle">
+    <button onclick="theme()">Change Theme</button>
+</div>
+<h1 style="text-align:center;text-transform: uppercase; font-size: 50px;">
+Tools for AP Computer Science</h1>
+<section class="smb-container">
+<h3> Binary Search Calculator </h3>
+<h4> What is the minimum number of searches needed? </h4>
+<form action="/binary_calc/" id="binary" method="POST">
+    <label for="length">How long is the list</label>
+    <input name="length" id="length" type="number">
+    <input type="submit">
+</form>
+<tr>
+{% for x in output %}
+    <td style="border:2px solid red">{{x}}</td>
+{% endfor %}
+</tr>
+</section>
+<section class="smb-container">
+
+
+</section>
+</div>
+<script>
+    var stored = localStorage.getItem("theme");
+    var current = document.getElementById("page-container").classList[0];
+    document.getElementById("page-container").classList.remove(current);
+    document.getElementById("page-container").classList.add(stored)
+</script>
+
+    <script>
+        function changePic() {
+            if (document.getElementById("mask").style.display == "block") {
+                document.getElementById("nomask").style.display = "block";
+                document.getElementById("mask").style.display = "none";
+                document.getElementById("toggler").innerText = "put mask back on pls"
+            } else {
+                document.getElementById("nomask").style.display = "none";
+                document.getElementById("mask").style.display = "block";
+                document.getElementById("toggler").innerText = "no mask"
+
+            }
+        }
+        function theme() {
+               var themes = ["purple","green","light","blue","dark"]
+               var theme = document.getElementById("page-container").classList[0];
+               var generated = themes[Math.floor(Math.random() * themes.length)];
+               var new_theme = generated + "-theme"
+               while (new_theme == theme) {
+                   var generated = themes[Math.floor(Math.random() * themes.length)];
+                   var new_theme = generated + "-theme"
+               }
+               document.getElementById("page-container").classList.remove(theme);
+               document.getElementById("page-container").classList.add(new_theme);
+               localStorage.setItem("theme",new_theme);
+               document.getElementById("current").innerText = generated;
+        }
+    </script>
+    <style>
+        #page-container {
+            margin-left: 200px;
+            position: relative;
+            background-color: var(--bg-color);
+            color: var(--main-color)
+
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right:0;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+        }
+        .table tr:hover {
+            background-color: var(--secondary-color);
+            color: var(--main-color);
+            font-weight: 500;
+        }
+        th{
+            height: 70px;
+        }
+        th,td {
+            padding: 15px;
+            color: var(--main-color);
+            text-align: center;
+            height: 50px;
+            border: 2px solid var(--main-color)
+        }
+
+        .smb-container {
+            margin: 0 auto;
+        }
+        .description {
+            margin: 0 auto;
+            width: 80%;
+            padding: 1em;
+            min-height: 700px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+/*             display: flex; */
+/*             justify-content: space-between; */
+
+        }
+        .description div {
+            text-align: 0;
+            width: 100%;
+        }
+        .img {
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            margin: 0 auto;
+            height: 100%;
+            justify-self: flex-end;
+        }
+        .img img {
+            width: 80%;
+            border-radius: 50%;
+        }
+        .text {
+            width: 60%;
+            padding: 2em;
+        }
+        section {
+            width: 80%;
+        }
+        .joke {
+            display: flex;
+            justify-content: center;
+            padding: 2em;
+            width: 100%;
+            margin: 0 auto;
+            background-color: var(--main-color);
+            color: var(--bg-color)
+        }
+        .joke a {
+            color: var(--bg-color)
+        }
+        .joke a:hover {
+            color: var(--secondary-color)
+        }
+        .col:first-of-type {
+            text-align: center;
+        }
+        .col h4 {
+            font-size: 30px;
+        }
+        .col p {
+            font-size: 20px;
+        }
+        .col h5 {
+            font-size: 27px;
+        }
+        .col .setup {
+            font-size: 23px;
+        }
+    </style>
+
+{% endblock %}
+</html>
