@@ -87,8 +87,18 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
         padding: .75em;
     }
     .container #result div {
-        border: 2px solid red;
-        padding: 1em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+/*         margin: 10px 0; */
+    }
+    .container #result div span {
+        border: 2px solid var(--bg-color);
+        flex-grow: 1;
+        padding: 0.5em;
+    }
+    .container #result div span:hover {
+        text-decoration: underline
     }
 
 </style>
@@ -235,7 +245,7 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
                         // loop through JSON and build HTML output
                         for (let i = 0; i < data.length; i++) {
                             const div = document.createElement("div");
-                            div.innerHTML = data[i].name + ' ' + data[i].email + ' ' + data[i].phone;
+                            div.innerHTML = "<span>" + data[i].name + "</span>" +  ' ' + "<span>" +data[i].email + "</span>" + ' '+ "<span>" + data[i].phone + "</span>";
                             resultContainer.appendChild(div);
                         }
                     })
