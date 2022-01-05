@@ -113,14 +113,14 @@ def compscitools():
 @app.route('/binary_calc/',methods=['GET', 'POST'])
 def binary_calc():
     output = [x+1 for x in range(10)]
-    target = 2
     if request.form:
-        length=request.form.get("length")
+        length = request.form.get("length")
         target = request.form.get('target')
         if len(str(length)) != 0:
             output = sorted(random.sample(range(0,200),int(length)))
-        if len(str(target)) != 0:
-            target = target
+        if len(str(target)) == 0:
+            target = 2
+    print("the target is " + str(target))
     return render_template("compscitools.html",output =output, jsOutput = json.dumps(output), target = target)
 @app.route('/courserecoms/')
 def courserecoms():

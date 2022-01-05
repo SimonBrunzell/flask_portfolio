@@ -57,10 +57,10 @@ Tools for AP Computer Science</h1>
 <h4>The List:</h4>
 <p style="display: none" id="numList">{{output}}</p>
 <p id="test"></p>
-<button class="btn" onclick='search({{target}})'>Start Search</button>
+<button class="btn" onclick='formatSearch({{target}})'>Start Search</button>
 <ul class="list">
-{% for x in output %}
-    <li>{{x}}</li>
+{% for x in range(output|length) %}
+    <li id="item{{x}}">{{output[x]}}</li>
 {% endfor %}
 </ul>
 </section>
@@ -93,21 +93,19 @@ Tools for AP Computer Science</h1>
         }
         function search(target){
             list = {{jsOutput|safe}};
-            document.getElementById("test").innerText =   list;
-//             for (let i = 0; i<list.length;i++){
-//                 console.log(list[i])
-//             }
             low = 0;
             high = list.length-1;
-            while (low < high) {
+            console.log("the target is " + target)
+            while (low <= high) {
                 mid = parseInt((low+high)/2);
                 console.log("the low is " + low)
                 console.log("the high is " + high)
                 console.log("the mid is " + mid)
+                document.getElementById("item"+mid).style.backgroundColor = "red";
+
                 if (list[mid] == target) {
                     console.log(mid);
                     return mid
-                    console.log("function ran")
                     break
                 } else if (list[mid] < target) {
                     low = mid + 1
@@ -117,11 +115,12 @@ Tools for AP Computer Science</h1>
                 }
                 console.log("iteration of while loop complete")
             }
-            return "Sorry, it wasn't found"
-            console.log("function ran")
+            return "sorry, that was not found"
         }
         function formatSearch(target) {
-
+            result = search(target)
+            console.log("the result is" + result)
+            document.getElementById("result").innerText = "The Result is: " + String(result)
         }
     </script>
 
