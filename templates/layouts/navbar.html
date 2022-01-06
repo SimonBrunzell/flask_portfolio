@@ -59,8 +59,14 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
     #search-hover {
         fill: #000
     }
-    #search-hover:hover {
+    #search-container:hover #search-hover {
         fill: var(--main-color);
+    }
+    #search-container {
+        padding: 0.5em;
+    }
+    #search-container:hover  {
+        background-color: var(--bg-color);
     }
     .form-control {
         border: none;
