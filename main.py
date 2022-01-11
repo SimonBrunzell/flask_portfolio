@@ -11,7 +11,6 @@ from __init__ import app
 
 app.register_blueprint(app_crud)
 app.register_blueprint(subjects)
-
 # connects default URL to render index.html
 @app.route('/')
 def index():
@@ -69,9 +68,6 @@ def sanjay():
 @app.route("/final_grade_calc/")
 def final_grade_calc():
     return render_template("final_grade_calc.html")
-@app.route('/notes/')
-def notes():
-    return render_template("subjects/notes.html")
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
@@ -94,12 +90,32 @@ def binary_calc():
             output = sorted(random.sample(range(0,200),int(length)))
         if len(str(target)) == 0:
             target = 2
-    print("the target is " + str(target))
-    return render_template("compscitools.html",output =output, jsOutput = json.dumps(output), target = target)
+    target = int(target)
+    result = {}
+    low = 0
+    high = len(output)-1
+    search = 1
+    found = False
+    while low<=high:
+
+        mid = int((low+high)/2)
+        result["search"+str(search)] = {"mid":mid,"low":low,"high":high}
+        if output[mid] == target:
+            found = True
+            break
+        elif output[mid]<target:
+            low = mid+1
+        else:
+            high = mid-1
+        search += 1
+    if found:
+        result["finalsearch"] = "found"
+    else:
+        result["finalsearch"] = "not in list"
+    print(result)
+    return render_template("compscitools.html",output =output, jsOutput = json.dumps(result), target = target)
 @app.route('/courserecoms/')
 def courserecoms():
     return render_template('courserecoms.html')
-
-
 if __name__ == "__main__":
     app.run(debug=True, port="5002")

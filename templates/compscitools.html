@@ -9,7 +9,6 @@
         position: relative;
         background-color: var(--bg-color);
         color: var(--main-color);
-        height: 100%;
 
     }
     .theme-toggle {
@@ -18,10 +17,31 @@
         right:0;
         text-align: center;
     }
+
     .smb-container {
         margin: 0 auto;
         width: 80%;
     }
+    #binary input[type="number"] {
+        width: 50%;
+        padding: 1em 1.5em;
+        margin: 20px 0;
+        background-color: var(--secondary-color);
+        color: var(--main-color);
+        border: none;
+        outline: none;
+    }
+    #binary input::placeholder {
+        color: var(--tertiary-color)
+    }
+    #binary input:focus {
+        background-color: var(--tertiary-color);
+        color: var(--secondary-color)
+    }
+    #binary input:focus::placeholder {
+        color: var(--main-color)
+    }
+
     .list {
         display: flex;
         list-style-type: none;
@@ -38,6 +58,10 @@
 
 
     }
+    #above-list {
+        display: flex;
+        justify-content: space-between;
+    }
 </style>
 <div id="page-container" class="green-theme">
 <div class="theme-toggle">
@@ -48,16 +72,19 @@ Tools for AP Computer Science</h1>
 <section class="smb-container">
 <h3> Binary Visualizer </h3>
 <form action="/binary_calc/" id="binary" method="POST">
-    <label for="length" >How long is the list</label>
-    <input name="length" id="length" type="number" min="5" max="100">
-    <label for="target" >What should we search for?</label>
-    <input name="target" id="target" type="number" min="0" max="200">
+    <input name="length" id="length" type="number" min="5" max="100" placeholder="How many items should between in the list?"><br>
+    <input name="target" id="target" type="number" min="0" max="200" placeholder="What item should we search for?"><br>
     <input type="submit" class="btn">
 </form>
-<h4>The List:</h4>
+<h4 style="margin: 30px 0">The List:</h4>
+
+<div id="above-list">
+
+<button class="btn" onclick='search(0)'>Start Search</button>
+<button>Next Search</button>
+</div>
 <p style="display: none" id="numList">{{output}}</p>
 <p id="test"></p>
-<button class="btn" onclick='formatSearch({{target}})'>Start Search</button>
 <ul class="list">
 {% for x in range(output|length) %}
     <li id="item{{x}}">{{output[x]}}</li>
@@ -77,6 +104,7 @@ Tools for AP Computer Science</h1>
 </script>
 
     <script>
+        data = {{jsOutput|safe}};
         function theme() {
                var themes = ["purple","green","light","blue","dark"]
                var theme = document.getElementById("page-container").classList[0];
@@ -91,36 +119,11 @@ Tools for AP Computer Science</h1>
                localStorage.setItem("theme",new_theme);
                document.getElementById("current").innerText = generated;
         }
-        function search(target){
-            list = {{jsOutput|safe}};
-            low = 0;
-            high = list.length-1;
-            console.log("the target is " + target)
-            while (low <= high) {
-                mid = parseInt((low+high)/2);
-                console.log("the low is " + low)
-                console.log("the high is " + high)
-                console.log("the mid is " + mid)
-                document.getElementById("item"+mid).style.backgroundColor = "red";
-
-                if (list[mid] == target) {
-                    console.log(mid);
-                    return mid
-                    break
-                } else if (list[mid] < target) {
-                    low = mid + 1
-                }
-                else {
-                    high = mid -1
-                }
-                console.log("iteration of while loop complete")
-            }
-            return "sorry, that was not found"
-        }
-        function formatSearch(target) {
-            result = search(target)
-            console.log("the result is" + result)
-            document.getElementById("test").innerText = "The Result is: " + String(result)
+        function search(iteration) {
+            console.log(iteration);
+            console.log(data)
+            midValue = data["search"+String(iteration)]["mid"];
+            document.getElementById("item"+String(mid)).style.backgroundColor = "red"
         }
     </script>
 

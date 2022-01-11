@@ -32,4 +32,7 @@ def csp():
 def stats():
     return render_template("subjects/stats.html")
 
+@subjects.route('/notes/')
+def notes():
+    return render_template("subjects/notes.html")
 

@@ -7,9 +7,9 @@
 </head>
 {% block body %}
 
-<!--<div id="page-container" class="green-theme">-->
-<!--<div class="theme-toggle">-->
-<!--    <button onclick="theme()">Change Theme</button>-->
+<div id="page-container" class="green-theme">
+<div class="theme-toggle">
+   <button onclick="theme()">Change Theme</button>
 
 </div>
 <h1 style="text-align: center; text-transform: uppercase">Final Grade Calculator</h1>
@@ -87,7 +87,7 @@ function theme() {
    margin: auto;
    padding: 2em;
      /* the body of the calculator */
-   background-color: var(--calcbg);
+   background-color: var(--secondary-color);
  }
  
  .grade-container input{
@@ -97,12 +97,12 @@ function theme() {
    outline: none;
    margin-bottom: 30px;
      /* the box of the calculator */
-   background-color: var(--calcbx);
-   color: var(--calctxt)
+   background-color: var(--main-color);
+   color: var(--secondary-color);
  }
  .grade-container input:focus {
-    background-color: var(--calcbx);
-    color: var(--calctxt)
+   background-color: var(--tertiary-color);
+   color: var(--secondary-color)
  }
  .grade-container input::placeholder {
     color: var(--tertiary-color)
