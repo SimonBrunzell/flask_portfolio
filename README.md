@@ -3,10 +3,6 @@
 
 ## Contributors
 
-<details>
-  <summary> Show Table </summary>
-  
-  
 
 | Member  | Github Profile  | Commits  | Scrum Board Tasks  |
 |---|---|---|---|
@@ -16,9 +12,7 @@
 | Simon  | [@SimonBrunzell](https://github.com/SimonBrunzell)  | [All Commits](https://github.com/SimonBrunzell/flask_portfolio/commits?author=SimonBrunzell)  | [Tasks](https://github.com/SimonBrunzell/flask_portfolio/projects/1?card_filter_query=assignee%3Asimonbrunzell)  |
 | Vunsh  | [@vunsh](https://github.com/vunsh)  | [All Commits](https://github.com/SimonBrunzell/flask_portfolio/commits/?author=vunsh)  | [Tasks](https://github.com/SimonBrunzell/flask_portfolio/projects/1?card_filter_query=assignee%3vunsh)  |
   
-  
-</details>
-
+ 
 ### Table of Contents
 - [Idea](#idea)
 
