@@ -8,3 +8,5 @@ collections:
   pages:
     output: true
     permalink: /:collection/:name
+
+theme: jekyll-theme-merlot
