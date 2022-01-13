@@ -105,6 +105,9 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
     .container #result div span:hover {
         text-decoration: underline
     }
+    .show-white-space {
+        white-space: pre-wrap;
+    }
 
 </style>
 
@@ -171,7 +174,7 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
         <div style="display: flex;" class="search">
             <input type="text" class="form-control" id="term" placeholder="enter search term">
             <label></label> <!-- used for spacer -->
-            <button  onclick="search_data();"><img class="search-icon" src="/static/assets/search.svg" alt="search"></button>
+            <button  type="submit" onclick="search_data();"><img class="search-icon" src="/static/assets/search.svg" alt="search"></button>
         </div>
         <div class="container" >
         <div class="row" id="result"></div>
@@ -212,12 +215,15 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
                 console.log("hidden")
             }
         }
+
         function search_data() {
             // fetch standard requires data set to a name-value pair
             const term = document.getElementById("term");
             const body = {
                 term: term.value
             };
+            console.log(body)
+
 
             // fetch call with header options
             fetch('/crud/search/term/', {
@@ -257,6 +263,10 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
                     })
                 })
         }
+        term.addEventListener("keyup", function(search_data) {
+                document.getElementById("term").click();
+        })
+
     </script>
 
 </nav>
