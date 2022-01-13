@@ -1,0 +1,194 @@
+{% extends "layouts/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% block body %}
+<style>
+    #page-container {
+        margin-left: 200px;
+        position: relative;
+        background-color: var(--bg-color);
+        color: var(--main-color);
+        min-height: 100vh;
+    }
+    .theme-toggle {
+        position: absolute;
+        top: 0;
+        right:0;
+        text-align: center;
+    }
+
+    .smb-container {
+        margin: 0 auto;
+        width: 80%;
+    }
+    .top {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+    #legend {
+        border: 2px solid red;
+        width: 25%;
+    }
+    #legend tr {
+    }
+    #legend td, #legend th {
+        border: 2px solid var(--main-color);
+        text-align: center;
+    }
+    form {
+        max-width: 70%;
+        flex-grow: 1;
+    }
+    #binary input[type="number"] {
+        width: 100%;
+        padding: 1em 1.5em;
+        margin: 20px 0;
+        background-color: var(--secondary-color);
+        color: var(--main-color);
+        border: none;
+        outline: none;
+    }
+    #binary input::placeholder {
+        color: var(--tertiary-color)
+    }
+    #binary input:focus {
+        background-color: var(--tertiary-color);
+        color: var(--secondary-color)
+    }
+    #binary input:focus::placeholder {
+        color: var(--main-color)
+    }
+
+    .list {
+        display: flex;
+        list-style-type: none;
+/*         border: 2px solid var(--main-color); */
+        justify-content: flex-start;
+        padding: 0;
+        flex-wrap: wrap;
+        margin: 30px 0;
+    }
+    .list li {
+        border: 2px solid var(--main-color);
+        padding: 1em;
+        margin:  10px;
+
+
+    }
+    #above-list {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #test-result {
+        padding: 0.5em;
+
+    }
+</style>
+<div id="page-container" class="green-theme">
+<div class="theme-toggle">
+    <button onclick="theme()">Change Theme</button>
+</div>
+<h1 style="text-align:center;text-transform: uppercase; font-size: 50px;">
+Tools for AP Computer Science</h1>
+<section class="smb-container">
+<h3> Binary Visualizer </h3>
+<div class="top">
+<form action="/binary_calc/" id="binary" method="POST">
+    <input name="length" id="length" type="number" min="5" max="200" placeholder="How many items should between in the list?"><br>
+    <input name="target" id="target" type="number" min="0" max="500" placeholder="What item should we search for?"><br>
+    <input type="submit" class="btn">
+</form>
+<table id="legend">
+    <tr>
+        <th>Color</th>
+        <th> Meaning </th>
+    </tr>
+    <tr>
+        <td style="background-color: magenta;border-color: red;"> </td>
+        <td> Value Being Searched </td>
+    </tr>
+    <tr>
+        <td style="background-color: red"> </td>
+        <td> Previously Searched Values </td>
+    </tr>
+</table>
+</div>
+<!-- <h4 style="margin: 30px 0">The List:</h4> -->
+
+<div id="above-list">
+<h4> Search Result: <span id="test-result"></span></h4>
+
+<button class="btn" id="next-search" onclick="search(1)" >></button>
+</div>
+<p style="display: none" id="numList">{{output}}</p>
+<p id="test"></p>
+<p> The list has {{output|length}} elements.</p>
+<p> The Target is {{target}} </p>
+<p id="mid-viewer"></p>
+<ul class="list">
+{% for x in range(output|length) %}
+    <li id="item{{x}}">{{output[x]}}</li>
+{% endfor %}
+</ul>
+</section>
+<section class="smb-container">
+
+
+</section>
+</div>
+<script>
+    var stored = localStorage.getItem("theme");
+    var current = document.getElementById("page-container").classList[0];
+    document.getElementById("page-container").classList.remove(current);
+    document.getElementById("page-container").classList.add(stored)
+</script>
+
+    <script>
+        data = {{jsOutput|safe}};
+        function theme() {
+               var themes = ["purple","green","light","blue","dark"]
+               var theme = document.getElementById("page-container").classList[0];
+               var generated = themes[Math.floor(Math.random() * themes.length)];
+               var new_theme = generated + "-theme"
+               while (new_theme == theme) {
+                   var generated = themes[Math.floor(Math.random() * themes.length)];
+                   var new_theme = generated + "-theme"
+               }
+               document.getElementById("page-container").classList.remove(theme);
+               document.getElementById("page-container").classList.add(new_theme);
+               localStorage.setItem("theme",new_theme);
+               document.getElementById("current").innerText = generated;
+        }
+        function search(iteration) {
+            let string = "search"+String(iteration);
+            let mid = data[string]["mid"];
+            document.getElementById("item"+mid).style.backgroundColor = "magenta"
+            document.getElementById("item"+mid).style.border="2px solid red"
+            document.getElementById("mid-viewer").innerText = "The algorithm is searching index #" + mid
+            for (let x=1;x<iteration;x++) {
+                oldMid = data["search"+String(x)]["mid"];
+                document.getElementById("item"+oldMid).style.backgroundColor = "red"
+            }
+            if (!(("search"+String(iteration+1)) in data)) {
+                if (data["finalsearch"]==true) {
+                    document.getElementById("test-result").innerText = "Found at index #" + String(data["search"+String(iteration)]["mid"]) + ".";
+                    document.getElementById("item"+String(data["search"+String(iteration)]["mid"])).style.backgroundColor = "green";
+                    document.getElementById("test-result").style.backgroundColor = "green";
+                } else {
+                    document.getElementById("test-result").innerText = "Not in list."
+                    document.getElementById("test-result").style.backgroundColor = "red"
+                }
+                console.log("over")
+            } else {
+                document.getElementById("next-search").onclick = function() {search(iteration+1)};
+                console.log("function changed");
+            }
+        }
+    </script>
+
+{% endblock %}
+</html>
