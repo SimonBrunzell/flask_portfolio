@@ -87,7 +87,7 @@ def binary_calc():
         length = request.form.get("length")
         target = request.form.get('target')
         if len(str(length)) != 0:
-            output = sorted(random.sample(range(0,200),int(length)))
+            output = sorted(random.sample(range(0,500),int(length)))
         if len(str(target)) == 0:
             target = 2
     target = int(target)
@@ -108,14 +108,31 @@ def binary_calc():
         else:
             high = mid-1
         search += 1
-    if found:
-        result["finalsearch"] = "found"
-    else:
-        result["finalsearch"] = "not in list"
+    result["finalsearch"] = found
     print(result)
     return render_template("compscitools.html",output =output, jsOutput = json.dumps(result), target = target)
 @app.route('/courserecoms/')
 def courserecoms():
     return render_template('courserecoms.html')
+@app.route('/challenges/')
+def challenges():
+    return render_template('challenges.html')
+@app.route("/challenges_calc/",methods=['GET', 'POST'])
+def challenges_calc():
+    number = 3
+    if request.form:
+        print("ad")
+        number = int(request.form.get("num"))
+        if number % 2 == 0:
+            even = "Even"
+        else:
+            even = "Odd"
+        prime = True
+        for x in range(2,number):
+            if number % x ==0:
+                prime = False
+                break
+
+    return render_template("challenges.html",number = number, even = even, prime=prime)
 if __name__ == "__main__":
     app.run(debug=True, port="5002")
