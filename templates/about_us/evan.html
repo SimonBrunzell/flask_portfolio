@@ -3,44 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>About Evan</title>
+
+    <link rel="stylesheet" type="text/css" href="css/nave.css">
+
 </head>
-
-<style>
-    img{
-        border-radius:20px;
-    }
-
-    table td{
-        padding:10px
-    }
-    input{
-        background-color:#8c7060;
-        border: 2px solid #64483f;
-        border-radius:5px;
-    }
-    ::placeholder{
-        color:#64483f;
-    }
-    .docsIcon:hover{
-        color:#508cec;
-        transform: scale(1.2);
-        transition: transform .2s;
-    }
-    .commitsIcon:hover{
-        color:#2cc420;
-        transform: scale(1.2);
-        transition: transform .2s;
-    }
-    .scrumboardIcon:hover{
-        color:#3f3f3f;
-        transform: scale(1.2);
-        transition: transform .2s;
-    }
-    .githubIcon:hover{
-        transform: scale(1.2);
-        transition: transform .2s;
-    }
-</style>
 
 {% extends 'layouts/base.html' %}
 
@@ -156,6 +122,43 @@
 
     document.querySelector('#find-me').addEventListener('click', geoFindMe);
     </script>
+
+<style>
+    img{
+        border-radius:20px;
+    }
+
+    table td{
+        padding:10px
+    }
+    input{
+        background-color:#8c7060;
+        border: 2px solid #64483f;
+        border-radius:5px;
+    }
+    ::placeholder{
+        color:#64483f;
+    }
+    .docsIcon:hover{
+        color:#508cec;
+        transform: scale(1.2);
+        transition: transform .2s;
+    }
+    .commitsIcon:hover{
+        color:#2cc420;
+        transform: scale(1.2);
+        transition: transform .2s;
+    }
+    .scrumboardIcon:hover{
+        color:#3f3f3f;
+        transform: scale(1.2);
+        transition: transform .2s;
+    }
+    .githubIcon:hover{
+        transform: scale(1.2);
+        transition: transform .2s;
+    }
+</style>
 
 {%  endblock %}
 </html>

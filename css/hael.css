@@ -1,0 +1,22 @@
+
+p {
+    margin-left: 250px;
+}
+img {
+    margin-left: 250px;
+    width: 207px;
+    height: 368px;
+}
+button {
+    margin-left: 250px;
+}
+printjoke {
+    margin-left: 250px;
+}
+jokework {
+    margin-left: 250px;
+}
+body {
+    background-color:var(--leahbg) !important;
+}
+

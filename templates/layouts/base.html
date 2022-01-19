@@ -85,7 +85,7 @@ This HTML is setup as as a Jinja2 layout, coders use layouts for:
         html, body{
             margin: 0;
             height: 100%;
-            /*             animation: fadein 2s; */
+            /*    https://stackoverflow.com/questions/69097783/how-to-save-cookies-for-dark-light-mode-toggle-w3-school-code         animation: fadein 2s; */
             /*             -moz-animation: fadein 2s;  *//* Firefox */
             /*             -webkit-animation: fadein 2s;  *//* Safari and Chrome */
             /*             -o-animation: fadein 2s;  *//* Opera */
@@ -337,13 +337,17 @@ This HTML is setup as as a Jinja2 layout, coders use layouts for:
     var checkbox = document.querySelector('input[name=theme]');
     checkbox.addEventListener('change', function() {
         if(this.checked) {
-            trans();
+
             document.documentElement.setAttribute('data-theme', 'dark');
             localStorage.setItem("theme","dark");
-        } else {
-            trans();
+            document.cookie = ("theme" + "dark") ;
+        }
+
+        else {
+
             document.documentElement.setAttribute('data-theme', 'light');
             localStorage.setItem("theme","light")
+            document.cookie = ("theme" + "light") ;
         }
     });
 
@@ -354,6 +358,32 @@ This HTML is setup as as a Jinja2 layout, coders use layouts for:
             document.documentElement.classList.remove('transition')
         }, 1000)
     }
+
+
+/** Checks to see if you prefer dark mode
+ * THANK YOU https://stackoverflow.com/questions/69097783/how-to-save-cookies-for-dark-light-mode-toggle-w3-school-code **/
+
+(function() {
+    let element = document.body;
+
+    // Detect the OS's preferred color scheme
+    // https://stackoverflow.com/a/57795495/16319071
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem("theme","dark");
+
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem("theme","light") || false; // Return 'false' if 'darkmode' in localStorage returns null
+
+    }
+})();
+
+function manually_darkmode_toggle() {
+    let element = document.body;
+    let is_darkmode_enable = element.classList.toggle("dark-mode");
+    localStorage.setItem("darkmode", is_darkmode_enable); // Save to localStorage
+}
 </script>
 
 
