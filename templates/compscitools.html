@@ -102,6 +102,7 @@ Tools for AP Computer Science</h1>
     <input name="target" id="target" type="number" min="0" max="500" placeholder="What item should we search for?"><br>
     <input type="submit" class="btn">
 </form>
+
 <table id="legend">
     <tr>
         <th>Color</th>
@@ -150,7 +151,7 @@ Tools for AP Computer Science</h1>
     <script>
         data = {{jsOutput|safe}};
         function theme() {
-               var themes = ["purple","green","light","blue","dark"]
+               var themes = ["purple","green","light","blue","dark","navy"]
                var theme = document.getElementById("page-container").classList[0];
                var generated = themes[Math.floor(Math.random() * themes.length)];
                var new_theme = generated + "-theme"
