@@ -45,6 +45,12 @@ def flashcards():
 @app.route('/compscitools/')
 def compscitools():
     return render_template('compscitools.html')
+@app.route('/rateThis/',methods=['GET', 'POST'])
+def rateThis():
+    import rateThis
+    grading()
+
+
 @app.route('/binary_calc/',methods=['GET', 'POST'])
 def binary_calc():
     output = [x+1 for x in range(10)]

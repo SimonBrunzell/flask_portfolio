@@ -1,4 +1,5 @@
 
+
 # for first input
 # ok making the ratings global fixing everything camp!
 global rating1
@@ -36,8 +37,8 @@ while 2999 > x > 5 or x < 1:
     x = int(rating1)
 
 
-
-#for second input
+#
+# for second input
 rating2 = input("ok how cute is this one: ")
 # testing to make sure that the inputs are integers
 try:
@@ -68,10 +69,11 @@ while y > 5 or y < 1:
     y = int(rating2)
 
 
-
-#for third input
+#
+# for third input
 rating3 = input("Now what about this picture: ")
 # testing to make sure that the inputs are integers
+
 try:
     z = int(rating3)
 except ValueError:
@@ -99,8 +101,7 @@ while z > 5 or z < 1:
     z = int(rating3)
 
 
-
-
+#
 # this is the algorithm grading the users rating of the pictures
 def grading():
 
