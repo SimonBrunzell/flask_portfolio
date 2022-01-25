@@ -99,5 +99,13 @@ def challenges_calc():
                 break
 
     return render_template("challenges.html",number = number, even = even, prime=prime)
+
+@app.route("/mcq/")
+def mcq():
+    response = requests.get("https://api.trivia.willfry.co.uk/questions?limit=10")
+    output = response.json()
+    for x in range(len(output)):
+        print(output[x])
+    return render_template("mcq.html",questions = output)
 if __name__ == "__main__":
     app.run(debug=True, port="5002")

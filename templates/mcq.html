@@ -1,0 +1,120 @@
+{% extends "layouts/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+{% set project = "Practice MCQ" %}
+{% block body %}
+
+<div id="page-container" class="green-theme">
+<div class="theme-toggle">
+    <button onclick="theme()">Change Theme</button>
+</div>
+<h1 style="text-align:center;text-transform: uppercase">
+Sanjay Bharadwaj
+</h1>
+<section class="smb-container quiz">
+{% for x in range(questions|length) %}
+<div class="question">
+<p>{{questions[x]['question']}}</p>
+<form>
+    <input type="radio" id="q1{{x}}" class="correctAnswer" name="q{{x}}" value="{{questions[x]['correctAnswer']}}">
+    <label for="q1{{x}}">{{questions[x]['correctAnswer']}}</label><br>
+    <input type="radio" id="q2{{x}}" name="q{{x}}" value="{{questions[x]['incorrectAnswers'][0]}}">
+    <label for="q2{{x}}">{{questions[x]['incorrectAnswers'][0]}}</label><br>
+    <input type="radio" id="q3{{x}}" name="q{{x}}" value="{{questions[x]['incorrectAnswers'][1]}}">
+    <label for="q3{{x}}">{{questions[x]['incorrectAnswers'][1]}}</label>
+    <br>
+    <input type="radio" id="q4{{x}}" name="q{{x}}" value="{{questions[x]['incorrectAnswers'][2]}}">
+    <label for="q4{{x}}">{{questions[x]['incorrectAnswers'][2]}}</label>
+
+</form>
+<p id="ans{{x}}"></p>
+</div>
+{% endfor %}
+<button class="btn" onclick="checkQuiz()" > Submit Quiz </button>
+</section>
+<section class="smb-container">
+</section>
+</div>
+<script>
+    var stored = localStorage.getItem("theme");
+    var current = document.getElementById("page-container").classList[0];
+    document.getElementById("page-container").classList.remove(current);
+    document.getElementById("page-container").classList.add(stored)
+</script>
+
+    <script>
+        function changePic() {
+            if (document.getElementById("mask").style.display == "block") {
+                document.getElementById("nomask").style.display = "block";
+                document.getElementById("mask").style.display = "none";
+                document.getElementById("toggler").innerText = "put mask back on pls"
+            } else {
+                document.getElementById("nomask").style.display = "none";
+                document.getElementById("mask").style.display = "block";
+                document.getElementById("toggler").innerText = "no mask"
+
+            }
+        }
+        function theme() {
+               var themes = ["purple","green","light","blue","dark"]
+               var theme = document.getElementById("page-container").classList[0];
+               var generated = themes[Math.floor(Math.random() * themes.length)];
+               var new_theme = generated + "-theme"
+               while (new_theme == theme) {
+                   var generated = themes[Math.floor(Math.random() * themes.length)];
+                   var new_theme = generated + "-theme"
+               }
+               document.getElementById("page-container").classList.remove(theme);
+               document.getElementById("page-container").classList.add(new_theme);
+               localStorage.setItem("theme",new_theme);
+               document.getElementById("current").innerText = generated;
+        }
+        function checkQuiz() {
+            for (let i = 0; i<10;i++) {
+                var q = document.getElementsByName("q"+i);
+                for (let x = 0; x<q.length;x++) {
+                    if (q[x].checked) {
+                        if (q[x].classList.contains("correctAnswer")) {
+                            document.getElementById("ans"+i).innerText = "Congratulations, this is the correct answer!"
+                            document.getElementById("ans"+i).style.color = "green";
+                            console.log(q[x].id)
+                        } else {
+                            document.getElementById("ans"+i).innerText = "Sorry, that is not the correct answer. The correct answer is " + document.getElementsByClassName("correctAnswer")[i].value + "."
+                            document.getElementById("ans"+i).style.color = "red"
+                            q[x].style.backgroundColor = "green"
+                        }
+                    }
+                }
+            }
+
+        }
+
+    </script>
+    <style>
+        #page-container {
+            margin-left: 200px;
+            position: relative;
+            background-color: var(--bg-color);
+            color: var(--main-color);
+            min-height: 100vh;
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right:0;
+            text-align: center;
+        }
+        .smb-container {
+            margin: 0 auto;
+            width: 50%;
+        }
+        .question {
+            background-color: var(--main-color);
+            color: var(--secondary-color);
+            padding: 2em;
+            margin: 20px 0;
+        }
+    </style>
+
+{% endblock %}
+</html>
