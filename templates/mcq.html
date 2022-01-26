@@ -2,6 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
 {% set project = "Practice MCQ" %}
+<head>
+    <script>
+//         Credit: https://techwelkin.com/randomize-html-list-display-html-list-items-randomly#:~:text=If%20you%20want%20to%20randomly,of%20the%20BODY%20tag%20occurs.
+    </script>
+</head>
 {% block body %}
 
 <div id="page-container" class="green-theme">
@@ -15,22 +20,33 @@ Sanjay Bharadwaj
 {% for x in range(questions|length) %}
 <div class="question">
 <p>{{questions[x]['question']}}</p>
-<form>
-    <input type="radio" id="q1{{x}}" class="correctAnswer" name="q{{x}}" value="{{questions[x]['correctAnswer']}}">
-    <label for="q1{{x}}">{{questions[x]['correctAnswer']}}</label><br>
-    <input type="radio" id="q2{{x}}" name="q{{x}}" value="{{questions[x]['incorrectAnswers'][0]}}">
-    <label for="q2{{x}}">{{questions[x]['incorrectAnswers'][0]}}</label><br>
-    <input type="radio" id="q3{{x}}" name="q{{x}}" value="{{questions[x]['incorrectAnswers'][1]}}">
-    <label for="q3{{x}}">{{questions[x]['incorrectAnswers'][1]}}</label>
-    <br>
-    <input type="radio" id="q4{{x}}" name="q{{x}}" value="{{questions[x]['incorrectAnswers'][2]}}">
-    <label for="q4{{x}}">{{questions[x]['incorrectAnswers'][2]}}</label>
+<ul id="questionsContainer{{x}}" class="questionsContainer">
+    <li id="q0{{x}}container" class="qContainer">
+    <input type="radio" id="q0{{x}}" class="correctAnswer" name="q{{x}}" value="{{questions[x]['correctAnswer']}}">
+    <label for="q0{{x}}">{{questions[x]['correctAnswer']}}</label>
+    </li>
 
-</form>
+    <li id="q1{{x}}container" class="qContainer">
+    <input type="radio" id="q1{{x}}" name="q{{x}}" value="{{questions[x]['incorrectAnswers'][0]}}">
+    <label for="q1{{x}}">{{questions[x]['incorrectAnswers'][0]}}</label>
+    </li>
+
+    <li id="q2{{x}}container" class="qContainer">
+    <input type="radio" id="q2{{x}}" name="q{{x}}" value="{{questions[x]['incorrectAnswers'][1]}}">
+    <label for="q2{{x}}">{{questions[x]['incorrectAnswers'][1]}}</label>
+    </li>
+
+    <li id="q3{{x}}container" class="qContainer">
+    <input type="radio" id="q3{{x}}" name="q{{x}}" value="{{questions[x]['incorrectAnswers'][2]}}">
+    <label for="q3{{x}}">{{questions[x]['incorrectAnswers'][2]}}</label>
+    </li>
+
+</ul>
 <p id="ans{{x}}"></p>
 </div>
 {% endfor %}
 <button class="btn" onclick="checkQuiz()" > Submit Quiz </button>
+
 </section>
 <section class="smb-container">
 </section>
@@ -39,7 +55,36 @@ Sanjay Bharadwaj
     var stored = localStorage.getItem("theme");
     var current = document.getElementById("page-container").classList[0];
     document.getElementById("page-container").classList.remove(current);
-    document.getElementById("page-container").classList.add(stored)
+    document.getElementById("page-container").classList.add(stored);
+    function randomizeItems(items)
+    {
+        var cached = items.slice(0), temp, i = cached.length, rand;
+        while(--i)
+        {
+            rand = Math.floor(i * Math.random());
+            temp = cached[rand];
+            cached[rand] = cached[i];
+            cached[i] = temp;
+        }
+        return cached;
+    }
+    function randomizeList(id)
+    {
+    var list = document.getElementById(id);
+        var nodes = list.children, i = 0;
+        nodes = Array.prototype.slice.call(nodes);
+        nodes = randomizeItems(nodes);
+        while(i < nodes.length)
+        {
+            list.appendChild(nodes[i]);
+            ++i;
+        }
+    list.style.display="block";
+    }
+    for (let i = 0; i<10;i++) {
+        randomizeList("questionsContainer"+i)
+    }
+
 </script>
 
     <script>
@@ -77,11 +122,11 @@ Sanjay Bharadwaj
                         if (q[x].classList.contains("correctAnswer")) {
                             document.getElementById("ans"+i).innerText = "Congratulations, this is the correct answer!"
                             document.getElementById("ans"+i).style.color = "green";
-                            console.log(q[x].id)
+                            document.getElementById(q[x].id+"container").style.backgroundColor = "green";
                         } else {
                             document.getElementById("ans"+i).innerText = "Sorry, that is not the correct answer. The correct answer is " + document.getElementsByClassName("correctAnswer")[i].value + "."
                             document.getElementById("ans"+i).style.color = "red"
-                            q[x].style.backgroundColor = "green"
+                            document.getElementById(q[x].id+"container").style.backgroundColor = "red";
                         }
                     }
                 }
@@ -108,12 +153,23 @@ Sanjay Bharadwaj
             margin: 0 auto;
             width: 50%;
         }
+        .questionsContainer {
+            list-style-type: none;
+            padding: 0;
+        }
         .question {
             background-color: var(--main-color);
             color: var(--secondary-color);
             padding: 2em;
             margin: 20px 0;
         }
+        .qContainer {
+            padding: 1em;
+            margin: 5px 0;
+        }
+/*         input[type="radio"] { */
+/*             display: none; */
+/*         } */
     </style>
 
 {% endblock %}
