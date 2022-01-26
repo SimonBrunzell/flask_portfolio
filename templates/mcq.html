@@ -47,6 +47,7 @@ Sanjay Bharadwaj
 {% endfor %}
 <div id="end-buttons">
 <button class="btn" onclick="checkQuiz()" > Submit Quiz </button>
+<p id="score"></p>
 <a href="/mcq/" class="btn">Next Quiz</a>
 </div>
 </section>
@@ -103,18 +104,6 @@ Sanjay Bharadwaj
 </script>
 
     <script>
-        function changePic() {
-            if (document.getElementById("mask").style.display == "block") {
-                document.getElementById("nomask").style.display = "block";
-                document.getElementById("mask").style.display = "none";
-                document.getElementById("toggler").innerText = "put mask back on pls"
-            } else {
-                document.getElementById("nomask").style.display = "none";
-                document.getElementById("mask").style.display = "block";
-                document.getElementById("toggler").innerText = "no mask"
-
-            }
-        }
         function theme() {
                var themes = ["purple","green","light","blue","dark"]
                var theme = document.getElementById("page-container").classList[0];
@@ -130,14 +119,18 @@ Sanjay Bharadwaj
                document.getElementById("current").innerText = generated;
         }
         function checkQuiz() {
+            var score = 0;
             for (let i = 0; i<10;i++) {
                 var q = document.getElementsByName("q"+i);
+                var checked = false
                 for (let x = 0; x<q.length;x++) {
                     if (q[x].checked) {
+                        checked = true
                         if (q[x].classList.contains("correctAnswer")) {
                             document.getElementById("ans"+i).innerText = "Congratulations, this is the correct answer!"
                             document.getElementById("ans"+i).style.color = "green";
                             document.getElementById(q[x].id+"container").style.backgroundColor = "green";
+                            score++
                         } else {
                             document.getElementById("ans"+i).innerText = "Sorry, that is not the correct answer. The correct answer is " + document.getElementsByClassName("correctAnswer")[i].value + "."
                             document.getElementById("ans"+i).style.color = "red"
@@ -145,8 +138,18 @@ Sanjay Bharadwaj
                         }
                     }
                 }
+                if (checked == false) {
+                    document.getElementById("ans"+i).innerText = "The correct answer is " + document.getElementsByClassName("correctAnswer")[i].value + ".";
+                    document.getElementById("ans"+i).style.color = "red"
+                }
             }
-
+            document.getElementById("score").innerText = "Your score is " + score + "/10."
+            if (score > 7) {
+                document.getElementById("score").style.color = "green"
+            }
+            if (score <3) {
+                document.getElementById("score").style.color = "red"
+            }
         }
 
     </script>
@@ -188,6 +191,10 @@ Sanjay Bharadwaj
         #end-buttons {
             display: flex;
             justify-content: space-between;
+        }
+        #score {
+            font-weight: 800;
+
         }
     </style>
 
