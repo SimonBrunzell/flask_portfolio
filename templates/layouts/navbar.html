@@ -108,7 +108,21 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
     .show-white-space {
         white-space: pre-wrap;
     }
-
+    #search_button_clicker {
+        display: none
+    }
+    #timerInputContainer{
+        background-color: var(--main-color);
+        position: fixed;
+        right: 100px;
+        width: 10%;
+        padding: 1em;
+        display: none;
+    }
+    #timerInputContainer > * {
+        width: 100%;
+        margin: 5px 0;
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -152,6 +166,19 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
                     </div>
                 </li>
             </ul>
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarStarters" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Practice
+                        <div class="nav-border"></div>
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/mcq/">Multiple Choice</a>
+                    </div>
+                </li>
+            </ul>
 
             <a class="nav-link" href="/flashcards/">Flash Cards <div class="nav-border"></div></a>
             <a class="nav-link" href="/crud">Database <div class="nav-border"></div></a>
@@ -172,14 +199,25 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
     <div onclick="showSearch()" id="search-container"><svg id="search-hover" class="search-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16"><path  d="M15.504 13.616l-3.79-3.223c-0.392-0.353-0.811-0.514-1.149-0.499 0.895-1.048 1.435-2.407 1.435-3.893 0-3.314-2.686-6-6-6s-6 2.686-6 6 2.686 6 6 6c1.486 0 2.845-0.54 3.893-1.435-0.016 0.338 0.146 0.757 0.499 1.149l3.223 3.79c0.552 0.613 1.453 0.665 2.003 0.115s0.498-1.452-0.115-2.003zM6 10c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"></path></svg></div>
     <div id="form-group" class="form-group" style="display: none">
         <div style="display: flex;" class="search">
-            <input type="text" class="form-control" id="term" placeholder="enter search term">
+            <input type="text" class="form-control" id="term" placeholder="enter search term" autocomplete="off">
             <label></label> <!-- used for spacer -->
-            <button  type="submit" onclick="search_data();"><img class="search-icon" src="/static/assets/search.svg" alt="search"></button>
+            <button id="search_button_clicker" type="submit" onclick="search_data();"><img class="search-icon" src="/static/assets/search.svg" alt="search"></button>
         </div>
         <div class="container" >
         <div class="row" id="result"></div>
         </div>
     </div>
+    <div id="timerContainer">
+        <div id="iconInputContainer" onclick="showTimer()">
+        <i class="fas fa-clock"></i>
+        </div>
+        <div id="timerInputContainer" style="display:none" >
+            <input id="timerInput" type="number" min="0.1" max="120" step="0.1" value="1">
+            <button id="startButton" onclick="timer()">Set Timer</button>
+            <p style="text-align: center" id="remainingTime"></p>
+        </div>
+    </div>
+
     <!--Clock thing-->
     <div style="color:var(--txt);" class="btn-group">
         <!-- Clock display -->
@@ -206,6 +244,38 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
 
     </script>
     <script>
+        function showTimer() {
+            if (document.getElementById("timerInputContainer").style.display == "none") {
+                document.getElementById("timerInputContainer").style.display = "block"
+            } else {
+                document.getElementById("timerInputContainer").style.display = "none"
+            }
+        }
+        function timer() {
+            duration = document.getElementById("timerInput").value
+            var current = new Date().getTime();
+            var New = duration*60000;
+            var end = current + New
+            document.getElementById("startButton").addEventListener("click",function(){
+                clearInterval(myFunc)
+                timer()
+
+            })
+            var myFunc = setInterval(function() {
+                var now = new Date().getTime();
+                timeleft = end - now
+                var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+                document.getElementById("remainingTime").innerText = (hours + ":" + minutes + ":" + seconds)
+                if (timeleft<=0) {
+                    clearInterval(myFunc);
+                    document.getElementById("remainingTime").innerText = "TIME IS UP"
+                    document.getElementById("remainingTime").style.color = "red"
+                    document.getElementById("timerInputContainer").style.display = "block"
+                }
+            },1000)
+        }
         function showSearch() {
             if (document.getElementById("form-group").style.display == "none") {
                 document.getElementById("form-group").style.display = "block";
@@ -264,9 +334,16 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
                 })
         }
         term.addEventListener("keyup", function(search_data) {
-                document.getElementById("term").click();
+            if (search_data.keyCode == 13) {
+                document.getElementById("search_button_clicker").click();
+            }
         })
+        document.getElementById("timerInput").addEventListener("keyup",function(timer){
+            if (timer.keyCode == 13) {
+                document.getElementById("startButton").click()
+            }
 
+        })
     </script>
 
 </nav>
