@@ -4,6 +4,12 @@
 <!- This variable sets name of browser tab  -->
 {% set project = "Leah" %}
 
+<head>
+
+    <link rel="stylesheet" type="text/css" href="css/hael.css">
+
+</head>
+
 <!- This is a replacement block for Body in base.html -->
 {% block body %}
     <!- Try building a new body here ->
@@ -101,9 +107,10 @@
             margin-left: 250px;
         }
         body {
-            background-color:var(--leahbg) !important;
+            background-color: var(--leahbg) !important;
         }
     </style>
+
 {% endblock %}
 
 <!- This is turning off birds background from base.html -->
