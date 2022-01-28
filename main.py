@@ -70,11 +70,11 @@ def rateThis():
     elif x + y + z >= 9:
         picGrade = "oh geez not a fan i guess... you gave these pictures an D"
 
-    else x + y + z < 9:
+    else:
         picGrade = "you didn't really like these did you... these pictures didn't pass"
 
 
-return render_template("rateThis.html")
+    return render_template("rateThis.html")
 
 
 @app.route('/binary_calc/',methods=['GET', 'POST'])
