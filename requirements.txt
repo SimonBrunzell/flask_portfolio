@@ -1,7 +1,5 @@
 Flask
 requests
-JSON
-random
 flask_sqlalchemy
 flask_migrate
 flask_restful
