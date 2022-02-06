@@ -1,3 +1,4 @@
+
 <!-- Extending the predefined project layout -->
 {% extends "layouts/base.html" %}
 
@@ -10,7 +11,64 @@
 
     <script>
 
+
+
+        let sRV = Math.floor((3*(1+Math.random()))-1)
+        let mRV = Math.floor((10*(1+Math.random()))-1)
+        let LRV = Math.floor((100*(1+Math.random()))-1)
+
+    function generateMathProblems(){
+        //RV = Random Value ==> s=small(1-3), m=mid(1-10), L=large(1-100)
+        document.getElementById('question-derivative').innerText="Find the derivative of: "+LRV+"x^"+sRV+". Input the coefficient of the x term."
+
+        document.getElementById('question-integral').innerText="Find the integral from 0 to "+sRV+" of: sqrt(x-"+sRV*sRV+"), divided by pi."
+
+        document.getElementById('question-limit').innerText="Find the limit as x goes to positive infinity of ("+mRV+"x^3 + "+sRV*mRV+") / (4x^3 + "+LRV+")"
+    }
+
+    function checkAnswers(){
+        let answerDerivative = sRV*LRV
+        let answerDerivativeExponent = sRV-1
+        let answerIntegral = (sRV*sRV)/4
+        let answerLimit = mRV/4
+        let correctAnswers = 0
+        if (document.getElementById('input-derivative').value == answerDerivative) {
+            {#document.getElementById().innerText = "Congratulations, this is the correct answer!"#}
+            {#document.getElementById('').style.color = "green";#}
+            {#document.getElementById(q[x].id + "container").style.backgroundColor = "green";#}
+            correctAnswers = correctAnswers + 1
+        }
+        if (document.getElementById('input-integral').value == answerIntegral) {
+            {#document.getElementById().innerText = "Congratulations, this is the correct answer!"#}
+            {#document.getElementById('').style.color = "green";#}
+            {#document.getElementById(q[x].id + "container").style.backgroundColor = "green";#}
+            correctAnswers = correctAnswers + 1
+        }
+        if (document.getElementById('input-limit').value == answerLimit) {
+            {#document.getElementById().innerText = "Congratulations, this is the correct answer!"#}
+            {#document.getElementById('').style.color = "green";#}
+            {#document.getElementById(q[x].id + "container").style.backgroundColor = "green";#}
+            correctAnswers = correctAnswers + 1
+        }
+        {#    document.getElementById("ans"+i).innerText = "Sorry, that is not the correct answer. The correct answer is " + document.getElementsByClassName("correctAnswer")[i].value + "."#}
+        {#    document.getElementById("ans"+i).style.color = "red"#}
+        {#    document.getElementById(q[x].id+"container").style.backgroundColor = "red";#}
+
+if (correctAnswers==3){
+    document.getElementById('score').innerHTML="Congratulations! You got all 3 of them right!"
+}
+if (correctAnswers==2){
+    document.getElementById('score').innerHTML="Approaching standards. You got 2/3 right!"
+}
+if (correctAnswers==1){
+    document.getElementById('score').innerHTML="Houston, we've got a problem. 1/3"
+}if (correctAnswers==0){
+    document.getElementById('score').innerHTML="Nice one stoopid. go back to integrated 1 you got some reviewin to do"
+}
+}
+
     </script>
+
 
 
     <style>
@@ -24,6 +82,85 @@
         }
         button {
             margin-left: 250px;
+        }
+    </style>
+
+    <div id="page-container" class="green-theme">
+        <h1 style="text-align:center;text-transform: uppercase">
+            Practice MCQ
+        </h1>
+        <section class="smb-container quiz">
+                <div class="question">
+                    <p id="question-derivative"></p>
+
+                </div>
+            <input type="number" id="input-derivative">
+            <div class="question">
+                <p id="question-integral"></p>
+
+            </div>
+            <input type="number" id="input-integral">
+            <div class="question">
+                <p id="question-limit"></p>
+
+            </div>
+            <input type="number" id="input-limit">
+            <div class="question">
+                <p id="score"></p>
+            </div>
+            <div id="end-buttons">
+                <button class="btn" onclick="checkAnswers()" > Submit Quiz </button>
+                <button class="btn" onclick="generateMathProblems()" > Start Quiz </button>
+                <a onclick="location.reload()" class="btn">Retry</a>
+            </div>
+        </section>
+        <section class="smb-container">
+        </section>
+    </div>
+
+
+    <style>
+        #page-container {
+            margin-left: 200px;
+            position: relative;
+            background-color: var(--bg-color);
+            color: var(--main-color);
+            min-height: 100vh;
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right:0;
+            text-align: center;
+        }
+        .smb-container {
+            margin: 0 auto;
+            width: 50%;
+        }
+        .questionsContainer {
+            list-style-type: none;
+            padding: 0;
+        }
+        .question {
+            background-color: var(--main-color);
+            color: var(--secondary-color);
+            padding: 2em;
+            margin: 20px 0;
+        }
+        .qContainer {
+            padding: 1em;
+            margin: 5px 0;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+        #end-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        #score {
+            font-weight: 800;
+            font-size: 20px
         }
     </style>
 {% endblock %}
