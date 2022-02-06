@@ -55,6 +55,7 @@ Practice MCQ
 </section>
 </div>
 <script>
+<a>
     var stored = localStorage.getItem("theme");
     var current = document.getElementById("page-container").classList[0];
     document.getElementById("page-container").classList.remove(current);
@@ -101,6 +102,7 @@ Practice MCQ
             })
         }
     }
+</a>
 </script>
 
     <script>
@@ -188,6 +190,14 @@ Practice MCQ
         }
         input[type="radio"] {
             display: none;
+        }
+        a {
+            background-color: powderblue;
+            transition: background-color .5s;
+        }
+
+        a:hover {
+            background-color: gold;
         }
         #end-buttons {
             display: flex;
