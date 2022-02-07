@@ -249,32 +249,41 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
         function showTimer() {
             if (document.getElementById("timerInputContainer").style.display == "none") {
                 document.getElementById("timerInputContainer").style.display = "block"
+                if (localStorage.getItem('end') !== null) {
+                    timer()
+                }
             } else {
                 document.getElementById("timerInputContainer").style.display = "none"
             }
         }
         function timer() {
-            duration = document.getElementById("timerInput").value
+            var duration = document.getElementById("timerInput").value
             var current = new Date().getTime();
             var New = duration*60000;
             var end = current + New
+            if (localStorage.getItem('end') !== null)
+                end = localStorage.getItem('end')
+            localStorage.setItem('end', end)
             document.getElementById("startButton").addEventListener("click",function(){
+                localStorage.removeItem('end')
                 clearInterval(myFunc)
                 timer()
 
             })
             var myFunc = setInterval(function() {
                 var now = new Date().getTime();
-                timeleft = end - now
+                var timeleft = end - now
                 var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
                 var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+                document.getElementById("remainingTime").style.color = "black"
                 document.getElementById("remainingTime").innerText = (hours + ":" + minutes + ":" + seconds)
                 if (timeleft<=0) {
                     clearInterval(myFunc);
                     document.getElementById("remainingTime").innerText = "TIME IS UP"
                     document.getElementById("remainingTime").style.color = "red"
                     document.getElementById("timerInputContainer").style.display = "block"
+                    localStorage.removeItem('end')
                 }
             },1000)
         }
