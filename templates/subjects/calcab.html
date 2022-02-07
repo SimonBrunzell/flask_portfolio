@@ -25,7 +25,6 @@
 
         document.getElementById('question-limit').innerText="Find the limit as x goes to positive infinity of ("+mRV+"x^3 + "+sRV*mRV+") / (4x^3 + "+LRV+")"
     }
-
     function checkAnswers(){
         let answerDerivative = sRV*LRV
         let answerDerivativeExponent = sRV-1
@@ -110,14 +109,15 @@ if (correctAnswers==1){
             </div>
             <div id="end-buttons">
                 <button class="btn" onclick="checkAnswers()" > Submit Quiz </button>
-                <button class="btn" onclick="generateMathProblems()" > Start Quiz </button>
                 <a onclick="location.reload()" class="btn">Retry</a>
             </div>
         </section>
         <section class="smb-container">
         </section>
     </div>
-
+<script>
+    generateMathProblems()
+</script>
 
     <style>
         #page-container {
