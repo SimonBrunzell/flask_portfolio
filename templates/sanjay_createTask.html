@@ -1,0 +1,211 @@
+{% extends "layouts/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+{% block body%}
+<style>
+  html {
+    height: 100%;
+  }
+  .userMovie {
+    width: 35%;
+    margin: 10px 0;
+  }
+  .userMovie input {
+    width: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+    background-color: var(--secondary-color);
+    color: var(--main-color);
+    border: none;
+    outline: none;
+  }
+  .userMovie input:focus {
+    background-color: var(--main-color);
+    color: var(--secondary-color)
+  }
+  #testID {
+    background-color: var(--main-color);
+    color: var(--secondary-color);
+    max-height: 30vh;
+    overflow: auto;
+  }
+  #testID ul {
+      margin: 0;
+      list-style-type: none;
+  }
+  .searchResult {
+    margin: 1em;
+  }
+  .searchResult:hover {
+      background-color: var(--secondary-color);
+      color: var(--main-color)
+  }
+
+  form {
+    width: 50%;
+    margin: 0 auto;
+  }
+  .form-container {
+    display: flex;
+  }
+  .genre-set {
+    margin: 0 15px
+  }
+  .movies {
+    width: 50%;
+    margin: 0 auto;
+  }
+  .movie {
+    display: flex;
+    margin: 20px 0;
+    padding: 2em;
+    justify-content: space-around;
+    background-color: var(--main-color);
+    color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 0 11px rgba(33,33,33,.2);  
+  }
+  .movie .text {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .text p {
+    font-size: 13px
+  }
+  .poster {
+    margin-right: 10px;
+    display: inline-block
+  }
+  .movie img {
+    max-width: 100%;
+    width: 100px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+  }
+</style>
+<script>
+
+    // var search_terms = ['apple', 'apple watch', 'apple macbook', 'apple macbook pro', 'iphone', 'iphone 12'];
+    var search_terms = {{movies|safe }}
+    function autocompleteMatch(input) {
+        if (input == '') {
+            return [];
+        }
+        var reg = new RegExp(input)
+        return search_terms.filter(function(term) {
+            if (term.match(reg)) {
+                return term;
+            }
+        });
+    }
+
+    function showResults(val) {
+        res = document.getElementById("testID");
+        console.log("Inside results" + res.innerHTML);
+        res.innerHTML = '';
+        let list = '';
+        let terms = autocompleteMatch(val);
+        for (i=0; i<terms.length; i++) {
+            console.log(list);
+            list += '<li class="searchResult">' + terms[i] + '</li>';
+        }
+        console.log(list)
+        res.innerHTML = '<ul>' + list + '</ul>';
+        console.log(res)
+        results = document.getElementsByClassName("searchResult")
+        for (let i = 0;i<results.length;i++){
+            results[i].addEventListener("click",function() {
+            document.getElementById("formInput").value = (results[i].innerText)
+            })
+        }
+    }
+</script>
+<h1 style="text-align: center"> Movie Recommendations </h1>
+<form action="/sanjay_createTask/" method="POST">
+  <h3>Select One or more Genres</h3>
+  <div class="form-container">
+    <div class="genre-set">
+      <input type="checkbox" id="Adventure" name="genre" value="Adventure">
+      <label for="Adventure"> Adventure</label><br>
+      <input type="checkbox" id="Animation" name="genre" value="Animation">
+      <label for="Animation"> Animation</label><br>
+      <input type="checkbox" id="Children" name="genre" value="Children">
+      <label for="Children"> Children</label><br>
+      <input type="checkbox" id="Comedy" name="genre" value="Comedy">
+      <label for="Comedy"> Comedy</label><br>
+      <input type="checkbox" id="Fantasy" name="genre" value="Fantasy">
+      <label for="Fantasy"> Fantasy</label><br>
+      <input type="checkbox" id="Romance" name="genre" value="Romance">
+      <label for="Romance"> Romance</label><br>
+    </div>
+    <div class="genre-set">
+      <input type="checkbox" id="Drama" name="genre" value="Drama">
+      <label for="Drama"> Drama</label><br>
+      <input type="checkbox" id="Action" name="genre" value="Action">
+      <label for="Action"> Action</label><br>
+      <input type="checkbox" id="Crime" name="genre" value="Crime">
+      <label for="Crime"> Crime</label><br>
+      <input type="checkbox" id="Thriller" name="genre" value="Thriller">
+      <label for="Thriller"> Thriller</label><br>
+      <input type="checkbox" id="Horror" name="genre" value="Horror">
+      <label for="Horror"> Horror</label><br>
+      <input type="checkbox" id="Mystery" name="genre" value="Mystery">
+      <label for="Mystery"> Mystery</label><br>
+    </div>
+    <div class="genre-set">
+      <input type="checkbox" id="Sci-Fi" name="genre" value="Sci-Fi">
+      <label for="Sci-Fi"> Sci-Fi</label><br>
+      <input type="checkbox" id="War" name="genre" value="War">
+      <label for="War"> War</label><br>
+      <input type="checkbox" id="Musical" name="genre" value="Musical">
+      <label for="Musical"> Musical</label><br>
+      <input type="checkbox" id="Documentary" name="genre" value="Documentary">
+      <label for="Documentary"> Documentary</label><br>
+      <input type="checkbox" id="IMAX" name="genre" value="IMAX">
+      <label for="IMAX"> IMAX</label><br>
+      <input type="checkbox" id="Western" name="genre" value="Western">
+      <label for="Western"> Western</label><br>
+      <input type="checkbox" id="Film-Noir" name="genre" value="Film-Noir">
+      <label for="Film-Noir"> Film-Noir</label><br>
+    </div>
+  </div>
+  <div class="userMovie">
+    <input autocomplete="off" type="text" name="q"  id="formInput"/>
+    <div id="testID" class="testClass">
+    </div>
+  </div>
+  <input class="btn" type="submit">
+</form> 
+<div class="movies">
+  {% for x in output %}
+  <div class="movie">
+      <div class="poster">
+          <img src="{{output[x]['poster']}}" alt="">
+      </div>
+      <div class="text">
+        <h3>{{output[x]["title"]}}</h3>
+        <div class="bottom">
+          <!-- <p>{{output[x]["tagline"]}}</p> -->
+          <p>{{output[x]["plot"]}}</p>
+          <!-- <p><i class="fas fa-stopwatch"></i> {{output[x]["time"]}} Minutes</p> -->
+        </div>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+<script>
+    searchInput  = document.getElementById("formInput")
+    searchInput.addEventListener("keyup",function() {
+        showResults(searchInput.value);
+        console.log(searchInput.value)
+    })
+</script>
+{% endblock %}
+</html>
