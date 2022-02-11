@@ -3,7 +3,7 @@ from flask import Flask, render_template,request
 import requests
 import json
 import random
-from crud.app_crud import app_crud
+# from crud.app_crud import app_crud
 
 from subjects import subjects
 import math
@@ -14,7 +14,7 @@ from aboutus import aboutus
 # create a Flask instance
 from __init__ import app
 
-app.register_blueprint(app_crud)
+# app.register_blueprint(app_crud)
 
 app.register_blueprint(subjects)
 
@@ -54,35 +54,14 @@ def flashcards():
 def compscitools():
     return render_template('compscitools.html')
 
+@app.route('/rateThis1/')
+def rateThis1():
+    return render_template("rateThis1")
+
 @app.route('/rateThis/', methods=['GET', 'POST'])
 def rateThis():
-
-    rating1 = request.form.get("rating1")
-    rating2 = request.form.get('rating2')
-    rating3 = request.form.get('rating3')
-
-    x = int(rating1)
-    y = int(rating2)
-    z = int(rating3)
-
-    if x + y + z >= 13:
-        global picGrade
-        picGrade = "Wow! You thought these pics were A+ , glad you liked them so much!"
-
-    elif x + y + z >= 12:
-        picGrade = "Glad you liked them! You gave these pics a B"
-
-    elif x + y + z >= 10:
-        picGrade = "huh guess these pictures were just ok, you gave them a C"
-
-    elif x + y + z >= 9:
-        picGrade = "oh geez not a fan i guess... you gave these pictures an D"
-
-    else:
-        picGrade = "you didn't really like these did you... these pictures didn't pass"
-
-
     return render_template("rateThis.html")
+
 
 
 @app.route('/binary_calc/',methods=['GET', 'POST'])
