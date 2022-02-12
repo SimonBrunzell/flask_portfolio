@@ -143,10 +143,12 @@ def challenges_calc():
 @app.route("/sanjay_createTask/", methods=["GET","POST"])
 def sanjay_createTask():
     genres = []
+    age = None
     if request.form:
         genres = request.form.getlist("genre")
+        age = int(request.form.get("age"))
+    print(type(age))
     output = recommendation(genres)
-    print(output)
     data = pd.read_csv("movieData/movies.csv")
     return render_template("sanjay_createTask.html",output=output,movies = json.dumps(data["title"].to_list()))
 

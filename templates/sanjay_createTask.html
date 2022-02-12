@@ -33,12 +33,26 @@
     max-height: 30vh;
     overflow: auto;
   }
+  #age {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30%;
+    height: 30px;
+    background-color: var(--main-color);
+    outline:none;
+  }
+  #age::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 30px;
+    width: 30px;
+    background-color: var(--secondary-color);
+    cursor: pointer;
+  }
   #testID ul {
       margin: 0;
+      padding: 0;
       list-style-type: none;
-  }
-  .searchResult {
-    margin: 1em;
   }
   .searchResult:hover {
       background-color: var(--secondary-color);
@@ -181,6 +195,11 @@
     <div id="testID" class="testClass">
     </div>
   </div>
+  <div class="recency">
+    <label for="age">How recent should the movie be?</label>
+    <input type="range" min="1" max="50" value="10" class="slider" id="age" name="age">
+    <p id="age-value"></p>
+  </div>
   <input class="btn" type="submit">
 </form> 
 <div class="movies">
@@ -201,6 +220,10 @@
   {% endfor %}
 </div>
 <script>
+    document.getElementById("age").oninput = function() {
+      document.getElementById("age-value").innerHTML = document.getElementById("age").value;
+    }
+
     searchInput  = document.getElementById("formInput")
     searchInput.addEventListener("keyup",function() {
         showResults(searchInput.value);
