@@ -1,0 +1,102 @@
+<!-- Extending the project layout, as this file will do minor customizations -->
+{% extends "layouts/base.html" %}
+
+<!-- Setting up variables to customize "project" details to be specific to hawkers -->
+{% set project = "StudyCycle" %}
+
+<!-- Setting up a block replacement to customize background to BIRDS -->
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <style>
+    h1 {
+      position: relative;
+      right: 1%;
+      font-size: 45px;}
+  </style>
+
+</head>
+
+<body>
+<br>
+<h1> Study Positives </h1>
+
+<style>
+
+  h1 {text-align: center;}
+  body {background-color: var(--bg);
+  }
+
+  table, th, td {border: 1px solid black; align-content: center; align: center; width:600px}
+
+  .flex-container {display: flex;
+    flex-wrap: wrap;}
+
+  /** Vid row pt.2 **/
+  .flex-container > div {
+    flex-direction: row;
+    padding: 60px;
+    flex-wrap: wrap;}
+
+</style>
+
+<div style="padding-left:300px">
+  <table style="text-align:center;height: 200px">
+
+    <tr>
+      <th> Is this useful for studying? </th>
+    </tr>
+
+    <div class="flex-container" >
+      <input style="margin-left: 20px" type="checkbox" id="letterA" name="letterA" value="letterA" />
+      <label for="letterA">Setting time aside to Study</label>
+      <input style="margin-left: 20px" type="checkbox" id="letterB" name="letterB" value="letterB" />
+      <label for="letterB">Gathering Necessary Materials</label>
+      <input style="margin-left: 20px" type="checkbox" id="letterC" name="letterC" value="letterC" />
+      <label for="letterC">Borrowing Homework from a Friend</label>
+    </div>
+
+    <div class="flex-container" >
+      <input style="margin-left: 20px" type="checkbox" id="letterD" name="letterD" value="letterD" />
+      <label for="letterD"> Watching TV</label>
+      <input style="margin-left: 20px" type="checkbox" id="letterE" name="letterE" value="letterE" />
+      <label for="letterE"> Texting your Friends</label>
+      <input style="margin-left: 20px" type="checkbox" id="letterF" name="letterF" value="letterF" />
+      <label for="letterF"> Color Coding your Notes </label>
+      <input style="margin-left: 20px" type="button" onclick="Experiment()" value="Submit">
+    </div>
+
+
+    <tr>
+      <td><textarea id="lockStatus_text" rows="1" cols="20"></textarea></td>
+    </tr>
+
+
+  </table>
+</div>
+
+
+<script>
+
+  function Experiment()
+  {
+
+    letterA = document.getElementById("letterA").checked;
+    letterB = document.getElementById("letterB").checked;
+    letterF = document.getElementById("letterF").checked;
+
+    correctAandB = letterA && letterB && letterF;
+
+    document.getElementById("lockStatus_text").value = correctAandB
+
+  }
+</script>
+</body>
+</html>
+
+{% endblock %}

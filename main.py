@@ -54,15 +54,13 @@ def flashcards():
 def compscitools():
     return render_template('compscitools.html')
 
-@app.route('/rateThis1/')
-def rateThis1():
-    return render_template("rateThis1")
-
 @app.route('/rateThis/', methods=['GET', 'POST'])
 def rateThis():
     return render_template("rateThis.html")
 
-
+@app.route('/studycycle/', methods=['GET', 'POST'])
+def studycycle():
+    return render_template("studycycle.html")
 
 @app.route('/binary_calc/',methods=['GET', 'POST'])
 def binary_calc():
