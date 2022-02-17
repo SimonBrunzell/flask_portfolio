@@ -49,27 +49,30 @@ function score() {
     let checkScore = isNaN(score)
     if (checkScore == false) {
 
-        if (r1 > 6) {
-            alert("please keep ratings less than or equal to 5")}
+        if (r1 > 5) {
+            alert("please keep ratings less than or equal to 5")
+            }
         else if (r1 < 1) {
             alert("please keep your ratings as positive numbers")
         }
 
-        if (r2 > 6) {
+        if (r2 > 5) {
             alert("please keep ratings less than or equal to 5")}
         else if (r2 < 1) {
             alert("please keep your ratings as positive numbers")
         }
 
-        if (r3 > 6) {
+        if (r3 > 5) {
             alert("please keep ratings less than or equal to 5")}
         else if (r3 < 1) {
             alert("please keep your ratings as positive numbers")
         }
 
+        if (score > 15) {
+            return
+        }
 
-
-        if (score >= 13) {
+        if (score >= 13 ) {
             alert("Wow! You thought these pics were A+ , glad you liked them so much!");
             document.getElementById("r").innerHTML = "Wow! You thought these pics were A+ , glad you liked them so much!";
             return
@@ -77,21 +80,25 @@ function score() {
 
         if (score >= 12) {
             alert("Glad you liked them! You gave these pics a B")
+            document.getElementById("r").innerHTML = "Glad you liked them! You gave these pics a B"
             return
         }
 
         if (score >= 10) {
             alert("huh guess these pictures were just ok, you gave them a C")
+            document.getElementById("r").innerHTML = "huh guess these pictures were just ok, you gave them a C"
             return
         }
 
         if (score >= 9) {
             alert("oh geez not a fan i guess... you gave these pictures an D")
+            document.getElementById("r").innerHTML = "oh geez not a fan i guess... you gave these pictures an D"
             return
         }
 
-        if (score < 9) {
+        if ( score < 9 & score > 1) {
             alert("you didn't really like these did you... these pictures didn't pass ")
+            document.getElementById("r").innerHTML = "you didn't really like these did you... these pictures didn't pass "
         }
 
     }
@@ -114,14 +121,13 @@ function reveal() {
 <br>
 <h1 class="header" > How cute are these Pictures!? </h1>
 
+<!--maybe have the rules flip over like the thumb and change text with innerHTML-->
 <div class="rules" >
 <p style="position:relative;left:.25%"> <b> Rules: </b></p>
-<p style="position:relative;left:.25%"> please rate these cute animals on a scale from 1 to 5</p>
+<p style="position:relative;left:.25%" id="rr"> please rate these cute animals on a scale from 1 to 5</p>
 </div>
 
-<div class="rules">
-    <p id="r" onmouseover="reveal()" > Results should go Here!</p>
-</div>
+
 
 
 <br>
@@ -151,6 +157,10 @@ function reveal() {
 <!--<button onclick="box3()" id = "btn3"> rate </button>-->
 
 <button onclick="score()" id = "score"> Give me my Score </button>
+
+<div class="result">
+    <p id="r" onclick="reveal()" > Results should go Here!</p>
+</div>
 
 
 <style>
@@ -208,8 +218,14 @@ function reveal() {
 
     }
 
+    /*this is how the grade is presented*/
     div.result {
-
+        background-color: var(--calcbg);
+        width: 600px;
+        height: 300px;
+        float: right;
+        font-size: 40px;
+        border: 3px solid black;
     }
 
 </style>
