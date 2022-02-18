@@ -49,56 +49,67 @@ function score() {
     let checkScore = isNaN(score)
     if (checkScore == false) {
 
+        const rep = ["please keep ratings less than or equal to 5",
+            "please keep your ratings as positive numbers"]
+
         if (r1 > 5) {
-            alert("please keep ratings less than or equal to 5")
+            alert(rep[0])
             }
         else if (r1 < 1) {
-            alert("please keep your ratings as positive numbers")
+            alert(rep[1])
         }
 
         if (r2 > 5) {
-            alert("please keep ratings less than or equal to 5")}
+            alert(rep[0])}
         else if (r2 < 1) {
-            alert("please keep your ratings as positive numbers")
+            alert(rep[1])
         }
 
         if (r3 > 5) {
-            alert("please keep ratings less than or equal to 5")}
+            alert(rep[0])}
         else if (r3 < 1) {
-            alert("please keep your ratings as positive numbers")
+            alert(rep[1])
         }
+
+       /* Trying to put the answers in the list*/
+        const answers = ["Wow! You thought these pics were A+ , glad you liked them so much!",
+            "Glad you liked them! You gave these pics a B",
+            "huh guess these pictures were just ok, you gave them a C",
+            "oh geez not a fan i guess... you gave these pictures an D",
+            "you didn't really like these did you... these pictures didn't pass "]
+
 
         if (score > 15) {
             return
         }
 
         if (score >= 13 ) {
-            alert("Wow! You thought these pics were A+ , glad you liked them so much!");
-            document.getElementById("r").innerHTML = "Wow! You thought these pics were A+ , glad you liked them so much!";
+            alert(answers[0]);
+            document.getElementById("r").innerHTML = answers[0];
             return
         }
 
         if (score >= 12) {
-            alert("Glad you liked them! You gave these pics a B")
-            document.getElementById("r").innerHTML = "Glad you liked them! You gave these pics a B"
+            alert(answers[1])
+            document.getElementById("r").innerHTML = answers[1]
             return
         }
 
         if (score >= 10) {
-            alert("huh guess these pictures were just ok, you gave them a C")
-            document.getElementById("r").innerHTML = "huh guess these pictures were just ok, you gave them a C"
+            alert(answers[2])
+            document.getElementById("r").innerHTML = answers[2]
             return
         }
 
         if (score >= 9) {
-            alert("oh geez not a fan i guess... you gave these pictures an D")
-            document.getElementById("r").innerHTML = "oh geez not a fan i guess... you gave these pictures an D"
+            alert(answers[3])
+            document.getElementById("r").innerHTML = answers[3]
             return
         }
 
         if ( score < 9 & score > 1) {
-            alert("you didn't really like these did you... these pictures didn't pass ")
-            document.getElementById("r").innerHTML = "you didn't really like these did you... these pictures didn't pass "
+            alert(answers[4])
+            document.getElementById("r").innerHTML = answers[4]
         }
 
     }
@@ -226,6 +237,8 @@ function reveal() {
         float: right;
         font-size: 40px;
         border: 3px solid black;
+        position: -webkit-sticky;
+        position: sticky;
     }
 
 </style>
