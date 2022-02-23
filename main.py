@@ -9,6 +9,7 @@ from subjects import subjects
 import math
 import pandas as pd
 from aboutus import aboutus
+from userNotes import userNotes
 from sanjay_createTask import recommendation
 
 # create a Flask instance
@@ -20,7 +21,7 @@ app.register_blueprint(subjects)
 
 app.register_blueprint(aboutus)
 
-
+app.register_blueprint(userNotes)
 # connects default URL to render index.html
 @app.route('/')
 def index():
