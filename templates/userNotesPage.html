@@ -3,24 +3,44 @@
 <html lang="en">
 
 <head>
-
+    <script language="javascript" type="text/javascript">
+        function removeSpaces(string) {
+         return string.split(' ').join('');
+        }
+    </script>
 </head>
 
 {% set project = "About Sanjay" %}
 {% block body %}
 
-<div id="page-container" class="green-theme">
+<div id="page-container" class="dark-theme">
 <div class="theme-toggle">
     <button onclick="theme()">Change Theme</button>
 </div>
 <h1 style="text-align:center;text-transform: uppercase">
 Sanjay Bharadwaj
 </h1>
-<section class="smb-container">
-    <form action="/updateNotes/" id="updateNotes" method="POST">
+<section class="center-container">
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Question</th>
+            <th>Answer</th>
+        </tr>
+        {% for x in data %}
+            <tr>
+                <td>{{data[x][0]}}</td>
+                <td>{{data[x][1]}}</td>
+                <td>{{data[x][2]}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</section>
+<section class="center-container">
+    <form action="/userNotesPage/" id="updateNotes" method="POST">
         <div class="field">
             <label for="subject">What Subject is this for?</label>
-            <input type="text" id="subject" name="subject" autocomplete="off" required>
+            <input type="text" id="subject" name="subject" onblur="this.value=removeSpaces(this.value);" autocomplete="off" required>
         </div>
         <div class="field">
             <label for="question">The prompt/tagline/question: </label>
@@ -33,12 +53,36 @@ Sanjay Bharadwaj
         <input type="submit">
     </form>
 </section>
+<section class="center-container">
+    <form action="/sortUserNotes/" id="sortUserNotes" method="POST">
+        {% for subject in data["subjects"] %}
+             <div class="field">
+                 <input type="checkbox" name="subjects" id="{{subject}}" value="{{subject}}">
+                 <label for="{{subject}}">{{subject}}</label>
+             </div>
+        {% endfor %}
+        <input type="submit">
+    </form>
+</section>
+<script>
+    if ( window.history.replaceState ) {
+      window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+    
 </div>
     <style>
-        .smb-container {
+        .center-container {
             margin: 0 auto;
             width: 50%;
-            border: 2px solid red;
+        }
+        .center-container table {
+            width: 100%;
+        }
+        th,td {
+            border: 2px solid var(--main-color);
+            padding: .5em;
+            color: var(--main-color)
         }
     </style>
 
