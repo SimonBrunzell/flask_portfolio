@@ -1,19 +1,19 @@
 """control dependencies to support CRUD app routes and APIs"""
-from flask import Blueprint, render_template, request, url_for, redirect, jsonify, make_response
+from flask import Blueprint, render_template, request, url_for, redirect, jsonify, make_response, app
 from flask_restful import Api, Resource
 import requests
 
-from model import Users
+from usernotes.notemodel import Users_notes
 
 # blueprint defaults https://flask.palletsprojects.com/en/2.0.x/api/#blueprint-objects
-app_crud = Blueprint('crud', __name__,
-                     url_prefix='/crud',
-                     template_folder='templates/crud/',
-                     static_folder='static',
-                     static_url_path='assets')
+app_usernotes = Blueprint('app_usernotes', __name__,
+                          url_prefix='/usernotes',
+                          template_folder='templates/usernotes/',
+                          static_folder='static',
+                          static_url_path='assets')
 
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
-api = Api(app_crud)
+api = Api(app_usernotes)
 
 """ Application control for CRUD is main focus of this File, key features:
     1.) User table queries
@@ -22,159 +22,159 @@ api = Api(app_crud)
     4.) API testing
 """
 
-""" Users table queries"""
+""" Users_notes table queries"""
 
 
-# Users extraction from SQL
-def users():
-    """converts Users table into JSON list """
-    return [peep.read() for peep in Users.query.all()]
+# Users_notes extraction from SQL
+def Users_notes():
+    """converts Users_notes table into JSON list """
+    return [peep.read() for peep in Users_notes.query.all()]
 
 
-def users_ilike(term):
-    """filter Users table by term into JSON list """
+def Users_notes_ilike(term):
+    """filter Users_notes table by term into JSON list """
     term = "%{}%".format(term)  # "ilike" is case insensitive and requires wrapped  %term%
-    table = Users.query.filter((Users.name.ilike(term)) | (Users.email.ilike(term)))
+    table = Users_notes.query.filter((Users_notes.name.ilike(term)) | (Users_notes.subject.ilike(term)))
     return [peep.read() for peep in table]
 
 
 # User extraction from SQL
-def user(userid):
+def Users_notes(userid):
     """finds User in table matching userid """
-    return Users.query.filter_by(userID=userid).first()
+    return Users_notes.query.filter_by(userID=userid).first()
 
 
 # User extraction from SQL
-def user_by_email(email):
-    """finds User in table matching email """
-    return Users.query.filter_by(email=email).first()
+def Users_notes_by_subject(subject):
+    """finds User in table matching subject """
+    return Users_notes.query.filter_by(subject=subject).first()
 
 
 """ app route section """
 
 
 # Default URL
-@app_crud.route('/')
-def crud():
-    """obtains all Users from table and loads Admin Form"""
-    return render_template("crud.html", table=users())
+@app_usernotes.route('/viewnotes/')
+def viewnotes():
+    """obtains all Users_notes from table and loads Admin Form"""
+    return render_template("viewnotes.html", table=Users_notes())
 
 
 # CRUD create/add
-@app_crud.route('/create/', methods=["POST"])
+@app_usernotes.route('/create/', methods=["POST"])
 def create():
-    """gets data from form and add it to Users table"""
+    """gets data from form and add it to Users_notes table"""
     if request.form:
-        po = Users(
+        po = Users_notes(
             request.form.get("name"),
-            request.form.get("email"),
-            request.form.get("password"),
-            request.form.get("phone"),
-            request.form.get("note")
+            request.form.get("subject"),
+            request.form.get("notes")
         )
         po.create()
-    return redirect(url_for('crud.crud'))
+    return redirect(url_for('userntoes.viewnotes'))
 
 
 # CRUD read
-@app_crud.route('/read/', methods=["POST"])
+@app_usernotes.route('/read/', methods=["POST"])
 def read():
-    """gets userid from form and obtains corresponding data from Users table"""
+    """gets userid from form and obtains corresponding data from Users_notes table"""
     table = []
     if request.form:
         userid = request.form.get("userid")
-        po = user(userid)
+        po = Users_notes(userid)
         if po is not None:
             table = [po.read()]  # placed in list for easier/consistent use within HTML
-    return render_template("crud.html", table=table)
+    return render_template("viewnotes.html", table=table)
 
 
 # CRUD update
-@app_crud.route('/update/', methods=["POST"])
+@app_usernotes.route('/update/', methods=["POST"])
 def update():
-    """gets userid and name from form and filters and then data in  Users table"""
+    """gets userid and name from form and filters and then data in  Users_notes table"""
     if request.form:
         userid = request.form.get("userid")
         name = request.form.get("name")
-        po = user(userid)
+        po = Users_notes(userid)
         if po is not None:
             po.update(name)
     return redirect(url_for('crud.crud'))
 
 
 # CRUD delete
-@app_crud.route('/delete/', methods=["POST"])
+@app_usernotes.route('/delete/', methods=["POST"])
 def delete():
-    """gets userid from form delete corresponding record from Users table"""
+    """gets userid from form delete corresponding record from Users_notes table"""
     if request.form:
         userid = request.form.get("userid")
-        po = user(userid)
+        po = Users_notes(userid)
         if po is not None:
             po.delete()
     return redirect(url_for('crud.crud'))
 
 
 # Search Form
-@app_crud.route('/search/')
+@app_usernotes.route('/search/')
 def search():
-    """loads form to search Users data"""
+    """loads form to search Users_notes data"""
     return render_template("search.html")
 
 
 # Search request and response
-@app_crud.route('/search/term/', methods=["POST"])
+@app_usernotes.route('/search/term/', methods=["POST"])
 def search_term():
     """ obtain term/search request """
     req = request.get_json()
     term = req['term']
-    response = make_response(jsonify(users_ilike(term)), 200)
+    response = make_response(jsonify(Users_notes_ilike(term)), 200)
     return response
 
 
 """ API routes section """
 
 
-class UsersAPI:
+
+
+class Users_notesAPI:
     # class for create/post
     class _Create(Resource):
-        def post(self, name, email, password, phone, note):
-            po = Users(name, email, password, phone, note)
+        def post(self, name, subject, notes):
+            po = Users_notes(name, subject, notes)
             person = po.create()
             if person:
                 return person.read()
-            return {'message': f'Processed {name}, either a format error or {email} is duplicate'}, 210
+            return {'message': f'Processed {name}, either a format error or is duplicate'}, 210
 
     # class for read/get
     class _Read(Resource):
         def get(self):
-            return users()
+            return Users_notes()
 
     # class for read/get
     class _ReadILike(Resource):
         def get(self, term):
-            return users_ilike(term)
+            return Users_notes_ilike(term)
 
     # class for update/put
     class _Update(Resource):
         def put(self, email, name):
-            po = user_by_email(email)
+            po = Users_notes_by_subject(email)
             if po is None:
-                return {'message': f"{email} is not found"}, 210
+                return {'message': f" is not found"}, 210
             po.update(name)
             return po.read()
 
     class _UpdateAll(Resource):
-        def put(self, email, name, password, phone):
-            po = user_by_email(email)
+        def put(self, name, subject, notes):
+            po = Users_notes_by_subject(subject)
             if po is None:
-                return {'message': f"{email} is not found"}, 210
-            po.update(name, password, phone)
+                return {'message': f"{subject} is not found"}, 210
+            po.update(name, subject, notes)
             return po.read()
 
     # class for delete
     class _Delete(Resource):
         def delete(self, userid):
-            po = user(userid)
+            po = Users_notes(userid)
             if po is None:
                 return {'message': f"{userid} is not found"}, 210
             data = po.read()
@@ -237,12 +237,13 @@ def api_tester():
 
 def api_printer():
     print()
-    print("Users table")
-    for user in users():
+    print("Users_notes table")
+    for user in Users_notes():
         print(user)
 
 
 """validating api's requires server to be running"""
 if __name__ == "__main__":
+    print("hello")
     api_tester()
     api_printer()

@@ -1,0 +1,193 @@
+<!-- Extending the predefined project layout -->
+
+<!- This variable sets name of browser tab  -->
+{% set project = "Question Game" %}
+
+<!- This is a replacement block for Body in base.html -->
+{% block body %}
+    <div id="subject">
+    <p>What subject would you like to be quizzed on? Choose 1</p>
+        <input type="checkbox" id="chooseSubject" value="APUSH">APUSH
+        <input type="checkbox" id="chooseSubject" value="AP Chem">AP Chem
+        <input type="button" onclick="getSubject()" value="Subject Chosen">
+    </div>
+    <div id="quiz"></div>
+    <button id="submit">Submit Quiz</button>
+    <div id="results"></div>
+
+    <script>
+    function getSubject(){
+        //get checkbox options
+        var subjectChoice = document.forms[0]
+        //check which box is checked
+        for (index = 0; index < chooseSubject.length; index++){
+            if (chooseSubject[index].checked){
+                //select which subject array to use
+                subjectChoice = chooseSubject[index].value
+            }
+        }
+        console.log(subjectChoice)
+    }
+
+        (function(subjectChoice){
+            function buildQuiz(subjectChoice){
+                const output = [];
+// instead of a game do a practice quiz based on subject, have different arrays/lists/dictionaries for each subject, have a question at the top asking for which subject then use that
+                // answer to choose and randomize questions with same code as movie quiz
+
+                //filter dictionary for correct subject and store filtered dictionary into new dictionary
+                var myQuestions = myQuestionsNotFiltered.filter(function (myQuestionsNotFiltered){
+                    return myQuestionsNotFiltered.subject === subjectChoice
+                })
+                console.log(myQuestions.questions)
+
+                indexes = [];
+                indexes[0] = Math.round(Math.random() * (myQuestions.length-1))
+                indexes[1] = Math.round(Math.random() * (myQuestions.length-1))
+                indexes[2] = Math.round(Math.random() * (myQuestions.length-1))
+                indexes[3] = Math.round(Math.random() * (myQuestions.length-1))
+                indexes[4] = Math.round(Math.random() * (myQuestions.length-1))
+
+
+                while ((indexes[0] === indexes[1]) | (indexes[0] === indexes[2]) | (indexes[0] === indexes[3]) || (indexes[0] === indexes[4])) {
+                    indexes[0] = Math.round(Math.random() * (myQuestions.length-1))
+                }
+                while ((indexes[1] === indexes[2]) | (indexes[1] === indexes[3]) || (indexes[1] === indexes[4])) {
+                    indexes[1] = Math.round(Math.random() * (myQuestions.length-1))
+                }
+                while ((indexes[2] === indexes[3]) || (indexes[2] === indexes[4])) {
+                    indexes[2] = Math.round(Math.random() * (myQuestions.length-1))
+                }
+                while (indexes[3] === indexes[4]) {
+                    indexes[3] = Math.round(Math.random() * (myQuestions.length-1))
+                }
+                console.log(indexes)
+
+
+                    for (ind = 0; ind < indexes.length; ind++) {
+                        currentQuestion = myQuestions[indexes[ind]]
+                        questionNumber = ind
+
+                        const answers = [];
+
+
+                        for(letter in currentQuestion.answers){
+
+                            answers.push(
+                                `<label>
+                          <input type="radio" name="question${questionNumber}" value="${letter}">
+                            ${letter} :${currentQuestion.answers[letter]}
+                            </label>`);
+                        }
+
+                        output.push(
+                            `<div class="question"> ${currentQuestion.question} </div>
+                    <div class="answers"> ${answers.join('')} </div>`);
+
+                        quizContainer.innerHTML = output.join('');
+                    }
+                }
+
+
+                function showResults(){
+
+                    const answerContainers = quizContainer.querySelectorAll('.answers');
+
+                    let numCorrect = 0;
+
+                    // for each question...
+                    for (ind = 0; ind < indexes.length; ind++) {
+                        currentQuestion = myQuestions[indexes[ind]]
+                        questionNumber = ind
+
+                        // find selected answer
+                        const answerContainer = answerContainers[questionNumber];
+                        const selector = `input[name=question${questionNumber}]:checked`;
+                        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                        // if answer is correct
+                        if(userAnswer === currentQuestion.correctAnswer){
+                            // add to the number of correct answers
+                            numCorrect++;
+
+                            // color the answers green
+                            answerContainers[questionNumber].style.color = 'darkgreen';
+                        }
+                        // if answer is wrong or blank
+                        else{
+                            // color the answers red
+                            answerContainers[questionNumber].style.color = '#ed1b2d';
+                        }
+                    };
+
+                    // show number of correct answers out of total
+                    resultsContainer.innerHTML = `${numCorrect} out of ${indexes.length}`;
+                }
+
+                const quizContainer = document.getElementById('quiz');
+                const resultsContainer = document.getElementById('results');
+                const submitButton = document.getElementById('submit');
+                const myQuestionsNotFiltered = [
+                    {
+                        subject: "APUSH",
+                        question: "Why did the US declare war during WWII?",
+                        answers: {
+                            a: "bombing of Pearl Harbor",
+                            b: "Hitler invading Russia",
+                            c: "Germany, Italy, and Japan allying"
+                        },
+                        correct_answer: "a"
+                    },
+                    {
+                        subject: "djfaks",
+                        question: "fds",
+                        answers: {
+                            a: "ds",
+                            b: "sad",
+                            c: "ds"
+                        },
+                        correct_answer: "b"
+                    },
+                ]
+
+                // Kick things off
+                buildQuiz(subjectChoice);
+
+                // Event listeners
+                submitButton.addEventListener('click', showResults);
+            })();
+    </script>
+
+
+    <!-- randomize x-value, use keyframes for it to fall (start at random x, top of screen = y),
+    set a bottom that stops the question if you take too long to answer/get it wrong
+    need  to have questions with answer choices in div, if correct response, explode, if incorrect, fall onto ground,
+    randomize which question to ask,
+    sort by subject eventually???-->
+
+    <style>
+        div {
+
+        }
+        img {
+            margin-left: 250px;
+            width: 207px;
+            height: 368px;
+        }
+        button {
+            margin-left: 250px;
+        }
+        question {
+            margin-left: 250px;
+        }
+        @keyframes movedown {
+            0% {transform: translateY(0)}
+            50% {transform: translateY(200px)}
+            100% {transform: translateY(400px)}
+        }
+    </style>
+{% endblock %}
+
+<!- This is turning off birds background from base.html -->
+{% block background %}
+{% endblock %}
