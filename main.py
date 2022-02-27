@@ -49,7 +49,9 @@ def planner():
 # runs the application on the development server
 @app.route('/flashcards/')
 def flashcards():
-    return render_template('flashcards.html')
+    testVar = requests.get('http://127.0.0.1:5002/getNotes')
+    output = testVar.json()
+    return render_template('flashcards.html',data=output)
 
 @app.route('/compscitools/')
 def compscitools():

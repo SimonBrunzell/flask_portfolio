@@ -18,26 +18,29 @@
     <button onclick="theme()">Change Theme</button>
 </div>
 <h1 style="text-align:center;text-transform: uppercase">
-Sanjay Bharadwaj
-</h1>
+Manage Your Notes</h1>
 <section class="center-container">
     <table>
         <tr>
             <th>Subject</th>
             <th>Question</th>
             <th>Answer</th>
+            <th class="itemId">ID</th>
         </tr>
         {% for x in data %}
             <tr>
                 <td>{{data[x][0]}}</td>
                 <td>{{data[x][1]}}</td>
                 <td>{{data[x][2]}}</td>
+                <td class="itemId">{{x}}</td>
             </tr>
         {% endfor %}
     </table>
 </section>
 <section class="center-container">
+    <h2>Add Notes to the Table</h2>
     <form action="/userNotesPage/" id="updateNotes" method="POST">
+        <input value = "adding" type="hidden" name="my_id">
         <div class="field">
             <label for="subject">What Subject is this for?</label>
             <input type="text" id="subject" name="subject" onblur="this.value=removeSpaces(this.value);" autocomplete="off" required>
@@ -53,7 +56,7 @@ Sanjay Bharadwaj
         <input type="submit">
     </form>
 </section>
-<section class="center-container">
+<!-- <section class="center-container">
     <form action="/sortUserNotes/" id="sortUserNotes" method="POST">
         {% for subject in data["subjects"] %}
              <div class="field">
@@ -62,6 +65,17 @@ Sanjay Bharadwaj
              </div>
         {% endfor %}
         <input type="submit">
+    </form>
+</section> -->
+<section class="center-container">
+    <h2>Delete Notes</h2>
+    <form action="/userNotesPage/" id="delete" method="POST">
+        <input value = "deleting" type="hidden" name="my_id">
+        <div>
+            <label for="id">What item do you want to delete (id number): </label>
+            <input id="id" name="id" type="text">
+        </div>
+        <input type="submit" value="Delete">
     </form>
 </section>
 <script>
