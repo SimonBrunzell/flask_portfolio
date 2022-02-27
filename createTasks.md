@@ -1,21 +1,22 @@
 {% include nav_jekyll.html %}
 
+
 <table>
   <tr>
     <th>Member</th>
-    <th>Link to Create Task</th>
+    <th>Link to Task</th>
   </tr>
   <tr> 
     <td>Evan</td>
     <td> <a href="#">Link</a> </td>
   </tr>
   <tr> 
-    <td>Sanjay</td>
-    <td> <a href="sanjay_createTask.md">Link</a> </td>
-  </tr>
-  <tr> 
     <td>Leah</td>
     <td> <a href="#">Link</a> </td>
+  </tr>
+  <tr> 
+    <td>Sanjay</td>
+    <td> <a href="sanjay_createTask">Link</a> </td>
   </tr>
   <tr> 
     <td>Simon</td>
