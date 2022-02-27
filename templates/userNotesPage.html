@@ -38,7 +38,7 @@ Manage Your Notes</h1>
     </table>
 </section>
 <section class="center-container">
-    <h2>Add Notes to the Table</h2>
+    <h2>Add Notesow </h2>
     <form action="/userNotesPage/" id="updateNotes" method="POST">
         <input value = "adding" type="hidden" name="my_id">
         <div class="field">
@@ -76,6 +76,17 @@ Manage Your Notes</h1>
             <input id="id" name="id" type="text">
         </div>
         <input type="submit" value="Delete">
+    </form>
+</section>
+<section class="center-container">
+    <h2>Search Notes</h2>
+    <form action="/userNotesPage/" id="Search" method="POST">
+        <input value = "searching" type="hidden" name="my_id">
+        <div>
+            <label for="searchTerm">What item do you want to search? </label>
+            <input id="searchTerm" name="searchTerm" type="text" autocomplete="off">
+        </div>
+        <input type="submit" value="Search">
     </form>
 </section>
 <script>

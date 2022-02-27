@@ -15,6 +15,7 @@ userNotes = Blueprint("userNotes",__name__)
 @userNotes.route('/userNotesPage/',methods=["GET","POST"])
 def userNotesPage():
     id=0
+    params=''
     if request.form:
         id = request.form.get("my_id")
         if id=="adding":
@@ -32,8 +33,12 @@ def userNotesPage():
             conn.execute("DELETE FROM NOTES WHERE id={id}".format(id=toDelete))
             conn.commit()
             conn.close()
+        if id=="searching":
+            term = request.form.get("searchTerm")
+            params +="?search="
+            params+= term
     print(id)
-    testVar = requests.get('http://127.0.0.1:5002/getNotes')
+    testVar = requests.get('http://127.0.0.1:5002/getNotes'+params)
     output = testVar.json()
     return render_template("userNotesPage.html",data=output)
 
@@ -55,22 +60,33 @@ def sortUserNotes():
 @app.route("/getNotes/")
 def getNotes():
     subject=request.args.get("subject")
+    search = request.args.get("search")
     conn = sqlite3.connect("model/myDB.db")
-    if subject:
-        subjectList = tuple(subject.split(" "))
-        print(subjectList)
-        cursor = conn.execute("SELECT * FROM NOTES where SUBJECT in {subjectList}".format(subjectList=subjectList))
-        dict = ({int(row[0]):row[1:] for row in cursor})
+    print(search)
+    if search:
+        firstCursor = conn.execute("SELECT * FROM NOTES WHERE subject LIKE '%{term}%'".format(term=search))
+        secondCursor = conn.execute("SELECT * FROM NOTES WHERE question LIKE '%{term}%'".format(term=search))
+        thirdCursor = conn.execute("SELECT * FROM NOTES WHERE answer LIKE '%{term}%'".format(term=search))
+        dict = {}
+        for row in firstCursor:
+            dict[row[0]] = row[1:]
+            print(row)
+        for row in secondCursor:
+            dict[row[0]] = row[1:]
+            print(row)
+        for row in thirdCursor:
+            dict[row[0]] = row[1:]
+            print(row)
     else:
         cursor = conn.execute("SELECT * FROM NOTES")
         dict = ({int(row[0]):row[1:] for row in cursor})
-    secondCursor = conn.execute("SELECT * FROM NOTES")
+    # secondCursor = conn.execute("SELECT * FROM NOTES")
     # dict["subjects"] = list(set([row[1] for row in secondCursor ]))
     dict = json.dumps(dict)
     conn.close()
     return dict
 # conn = sqlite3.connect('model/myDB.db')
-# cursor = conn.execute("SELECT * FROM NOTES")
+# cursor = conn.execute("SELECT * FROM NOTES where answer LIKE '%George%'")
 # for row in cursor:
 #     print(row)
 # conn.close()
