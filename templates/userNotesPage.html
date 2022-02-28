@@ -38,9 +38,32 @@ Manage Your Notes</h1>
     </table>
 </section>
 <section class="center-container">
-    <h2>Add Notesow </h2>
+    <h2>Add Notes </h2>
     <form action="/userNotesPage/" id="updateNotes" method="POST">
         <input value = "adding" type="hidden" name="my_id">
+        <div class="field">
+            <label for="subject">What Subject is this for?</label>
+            <input type="text" id="subject" name="subject" onblur="this.value=removeSpaces(this.value);" autocomplete="off" required>
+        </div>
+        <div class="field">
+            <label for="question">The prompt/tagline/question: </label>
+            <input type="text" id="question" name="question" autocomplete="off" required>
+        </div>
+        <div class="field">
+            <label for="answer">Answer to the question: </label>
+            <input type="text" id="answer" name="answer" autocomplete="off" required>
+        </div>
+        <input type="submit">
+    </form>
+</section>
+<section class="center-container">
+    <h2>Update Notes </h2>
+    <form action="/userNotesPage/" id="updateNotes" method="POST">
+        <input value = "updating" type="hidden" name="my_id">
+        <div class="field">
+            <label for="cellId">What cellId is this for?</label>
+            <input type="text" id="cellId" name="cellId" onblur="this.value=removeSpaces(this.value);" autocomplete="off" required>
+        </div>
         <div class="field">
             <label for="subject">What Subject is this for?</label>
             <input type="text" id="subject" name="subject" onblur="this.value=removeSpaces(this.value);" autocomplete="off" required>
@@ -73,7 +96,7 @@ Manage Your Notes</h1>
         <input value = "deleting" type="hidden" name="my_id">
         <div>
             <label for="id">What item do you want to delete (id number): </label>
-            <input id="id" name="id" type="text">
+            <input id="id" name="id" type="text" autocomplete="off">
         </div>
         <input type="submit" value="Delete">
     </form>

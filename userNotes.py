@@ -37,6 +37,15 @@ def userNotesPage():
             term = request.form.get("searchTerm")
             params +="?search="
             params+= term
+        if id=="updating":
+            cellId = request.form.get("cellId")
+            subject =  request.form.get("subject")
+            question = request.form.get("question")
+            answer = request.form.get("answer")
+            conn = sqlite3.connect("model/myDB.db")
+            conn.execute("UPDATE NOTES SET subject='{subject}', question='{question}', answer='{answer}' WHERE id={id}".format(subject=subject,question=question,answer=answer,id=cellId))
+            conn.commit()
+            conn.close()
     print(id)
     testVar = requests.get('http://127.0.0.1:5002/getNotes'+params)
     output = testVar.json()
