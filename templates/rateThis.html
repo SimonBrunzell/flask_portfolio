@@ -54,28 +54,37 @@ function score() {
 
         if (r1 > 5) {
             alert(rep[0])
-            }
+            document.getElementById("r").innerHTML = rep[0]
+
+        }
         else if (r1 < 1) {
             alert(rep[1])
+            document.getElementById("r").innerHTML = rep[1]
         }
 
         if (r2 > 5) {
-            alert(rep[0])}
+            alert(rep[0])
+            document.getElementById("r").innerHTML = rep[0]
+        }
         else if (r2 < 1) {
             alert(rep[1])
+            document.getElementById("r").innerHTML = rep[1]
         }
 
         if (r3 > 5) {
-            alert(rep[0])}
+            alert(rep[0])
+            document.getElementById("r").innerHTML = rep[0]
+        }
         else if (r3 < 1) {
             alert(rep[1])
+            document.getElementById("r").innerHTML = rep[1]
         }
 
        /* Trying to put the answers in the list*/
         const answers = ["Wow! You thought these pics were A+ , glad you liked them so much!",
             "Glad you liked them! You gave these pics a B",
             "huh guess these pictures were just ok, you gave them a C",
-            "oh geez not a fan i guess... you gave these pictures an D",
+            "oh geez not a fan i guess... you gave these pictures a D",
             "you didn't really like these did you... these pictures didn't pass "]
 
 
@@ -117,6 +126,7 @@ function score() {
         /** checks to see if all inputs are integers **/
         else {
             alert("please rate these cuties with integers")
+            document.getElementById("r").innerHTML = "it only works if you follow the rules"
     }
 
 
