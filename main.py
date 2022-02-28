@@ -9,7 +9,7 @@ from subjects import subjects
 import math
 import pandas as pd
 from aboutus import aboutus
-from usernotes.app_usernotes import app_usernotes
+from userNotes import userNotes
 
 
 # create a Flask instance
@@ -20,7 +20,6 @@ from __init__ import app
 app.register_blueprint(subjects)
 
 app.register_blueprint(aboutus)
-app.register_blueprint(app_usernotes)
 
 app.register_blueprint(userNotes)
 # connects default URL to render index.html
@@ -187,15 +186,15 @@ def challenges_calc():
 
     return render_template("challenges.html",number = number, even = even, prime=prime)
 
-@app.route("/sanjay_createTask/", methods=["GET","POST"])
-def sanjay_createTask():
-    genres = []
-    if request.form:
-        genres = request.form.getlist("genre")
-    output = recommendation(genres)
-    print(output)
-    data = pd.read_csv("movieData/movies.csv")
-    return render_template("sanjay_createTask.html",output=output,movies = json.dumps(data["title"].to_list()))
+# @app.route("/sanjay_createTask/", methods=["GET","POST"])
+# def sanjay_createTask():
+#     genres = []
+#     if request.form:
+#         genres = request.form.getlist("genre")
+#     output = recommendation(genres)
+#     print(output)
+#     data = pd.read_csv("movieData/movies.csv")
+#     return render_template("sanjay_createTask.html",output=output,movies = json.dumps(data["title"].to_list()))
 
 @app.route("/mcq/")
 def mcq():
