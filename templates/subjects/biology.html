@@ -9,7 +9,96 @@
 
     /* place notes here */
 
-    <script>
+    <script>let correctAnswers =0;
+    let a1 = ""
+    let a2 = ""
+    let b1 = ""
+    let b2 = ""
+    if(Math.random()>0.5){
+        a1 = "R"
+    }else{
+        a1 = "r"
+    }
+
+    if(Math.random()>0.5){
+        a2 = "R"
+    }else{
+        a2 = "r"
+    }
+
+
+    if(Math.random()>0.5){
+        b1 = "R"
+    }else{
+        b1 = "r"
+    }
+
+    if(Math.random()>0.5){
+        b2 = "R"
+    }else{
+        b2 = "r"
+    }
+
+        function generateBioProblems(){
+            document.getElementById('a1').innerText= a1
+
+            document.getElementById('a2').innerText= a2
+
+            document.getElementById('b1').innerText= b1
+
+            document.getElementById('b2').innerText= b2
+        }
+        function checkAnswers(){
+
+            if (document.getElementById('a1b1').value == a1+b1) {
+                {#document.getElementById().innerText = "Congratulations, this is the correct answer!"#}
+                {#document.getElementById('').style.color = "green";#}
+                {#document.getElementById(q[x].id + "container").style.backgroundColor = "green";#}
+                correctAnswers = correctAnswers + 1
+            }
+            if (document.getElementById('a1b2').value == a1+b2) {
+                {#document.getElementById().innerText = "Congratulations, this is the correct answer!"#}
+                {#document.getElementById('').style.color = "green";#}
+                {#document.getElementById(q[x].id + "container").style.backgroundColor = "green";#}
+                correctAnswers = correctAnswers + 1
+            }
+            if (document.getElementById('a2b1').value == a2+b1) {
+                {#document.getElementById().innerText = "Congratulations, this is the correct answer!"#}
+                {#document.getElementById('').style.color = "green";#}
+                {#document.getElementById(q[x].id + "container").style.backgroundColor = "green";#}
+                correctAnswers = correctAnswers + 1
+            }
+
+            if (document.getElementById('a2b2').value == a2 + b2) {
+                {#document.getElementById().innerText = "Congratulations, this is the correct answer!"#}
+                {#document.getElementById('').style.color = "green";#}
+                {#document.getElementById(q[x].id + "container").style.backgroundColor = "green";#}
+                correctAnswers = correctAnswers + 1
+            }
+            {#    document.getElementById("ans"+i).innerText = "Sorry, that is not the correct answer. The correct answer is " + document.getElementsByClassName("correctAnswer")[i].value + "."#}
+            {#    document.getElementById("ans"+i).style.color = "red"#}
+            {#    document.getElementById(q[x].id+"container").style.backgroundColor = "red";#}
+
+            if (correctAnswers==4){
+                document.getElementById('score').innerHTML="4/4"
+
+            }
+            if (correctAnswers==3){
+                document.getElementById('score').innerHTML="3/4"
+
+            }
+            if (correctAnswers==2){
+                document.getElementById('score').innerHTML="2/4"
+
+            }
+            if (correctAnswers==1){
+                document.getElementById('score').innerHTML="1/4"
+
+            }if (correctAnswers==0){
+                document.getElementById('score').innerHTML="0/4"
+
+            }
+        }
 
     </script>
 
@@ -26,7 +115,86 @@
         button {
             margin-left: 250px;
         }
+         #page-container {
+             margin-left: 200px;
+             position: relative;
+             background-color: var(--bg-color);
+             color: var(--main-color);
+             min-height: 100vh;
+         }
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right:0;
+            text-align: center;
+        }
+        .smb-container {
+            margin: 0 auto;
+            width: 50%;
+        }
+        .questionsContainer {
+            list-style-type: none;
+            padding: 0;
+        }
+        .question {
+            background-color: var(--main-color);
+            color: var(--secondary-color);
+            padding: 2em;
+            margin: 20px 0;
+        }
+        .qContainer {
+            padding: 1em;
+            margin: 5px 0;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+        #end-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        #score {
+            font-weight: 800;
+            font-size: 20px
+        }
     </style>
+
+    <div id="page-container" class="green-theme">
+        <h1 style="text-align:center;text-transform: uppercase">
+            Practice Punnet Square
+        </h1>
+        <section class="smb-container quiz">
+            <div class="question">
+                <table>
+                    <tr>
+                        <th></th>
+                        <th id="a1"></th>
+                        <th id="a2"></th>
+                    </tr>
+                    <tr>
+                        <td id="b1"></td>
+                        <td><input id="a1b1" type="text"></td>
+                        <td><input id="a2b1" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td id="b2"></td>
+                        <td><input id="a1b2" type="text"></td>
+                        <td><input id="a2b2" type="text"></td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <button class="btn" onclick="checkAnswers()" > Submit Quiz </button>
+                <a onclick="location.reload()" class="btn">Retry</a>
+                <p id="score">eeeee</p>
+            </div>
+        </section>
+        <section class="smb-container">
+        </section>
+    </div>
+    <script>
+    generateBioProblems()
+    </script>
 {% endblock %}
 
 <!- This is turning off birds background from base.html -->

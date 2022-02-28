@@ -12,3 +12,5 @@ node_modules
 /.idea/
 /.idea/
 /.idea/
+__pycache__
+crud/__pycache__

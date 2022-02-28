@@ -7,7 +7,7 @@ import random
 
 from subjects import subjects
 import math
-
+import pandas as pd
 from aboutus import aboutus
 from usernotes.app_usernotes import app_usernotes
 
@@ -22,7 +22,7 @@ app.register_blueprint(subjects)
 app.register_blueprint(aboutus)
 app.register_blueprint(app_usernotes)
 
-
+app.register_blueprint(userNotes)
 # connects default URL to render index.html
 @app.route('/')
 def index():
@@ -43,6 +43,10 @@ def snake():
 @app.route('/darktest/')
 def darktest():
     return render_template("about_us/darktest.html")
+
+@app.route('/memorygame/')
+def memorygame():
+    return render_template("memorygame.html")
 
 @app.route("/final_grade_calc/")
 def final_grade_calc():
@@ -82,10 +86,16 @@ def notes():
 def page_not_found(e):
     return render_template('404.html'), 404
 
+@app.route('/planner/')
+def planner():
+    return render_template('weekly calendar.html')
+
 # runs the application on the development server
 @app.route('/flashcards/')
 def flashcards():
-    return render_template('flashcards.html')
+    testVar = requests.get('http://127.0.0.1:5002/getNotes')
+    output = testVar.json()
+    return render_template('flashcards.html',data=output)
 
 @app.route('/compscitools/')
 def compscitools():
@@ -176,6 +186,16 @@ def challenges_calc():
                 break
 
     return render_template("challenges.html",number = number, even = even, prime=prime)
+
+@app.route("/sanjay_createTask/", methods=["GET","POST"])
+def sanjay_createTask():
+    genres = []
+    if request.form:
+        genres = request.form.getlist("genre")
+    output = recommendation(genres)
+    print(output)
+    data = pd.read_csv("movieData/movies.csv")
+    return render_template("sanjay_createTask.html",output=output,movies = json.dumps(data["title"].to_list()))
 
 @app.route("/mcq/")
 def mcq():
