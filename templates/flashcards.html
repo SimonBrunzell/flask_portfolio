@@ -120,19 +120,21 @@
 <div class="page-container">
 <h2> Flashcards <h2>
 <div class="flashcards-grid">
-    {% for x in range(8) %}
+    {% for y in data %}
+        {% set x = y|int %}
         <div id="flashcard{{x+1}}" class="flashcard">
             <div id="card{{x+1}}" class="flashcard-inner">
                 <div class="flashcard-front">
-                    <h2> front side of card {{x+1}}</h2>
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu molestie nibh, quis accumsan urna. Praesent lorem felis, elementum scelerisque faucibus a, pharetra a purus. Morbi nisi purus, placerat at. </p>
+                    <h2> Question:</h2>
+                    <h4>Subject: {{data[y][0]}}</h4>
+                    <p> {{data[y][1]}} </p>
                 </div>
                 <div class="flashcard-back card__face--back">
-                    <h2> back side of card {{x+1}} </h2>
+                    <h2> Answer </h2>
                     <p class="warning" id="warning{{x+1}}">WARNING!!!!</p>
                     <p class="warning" id="warning2{{x+1}}" style="font-size: 16px;">Do you want to reveal the answer?</p>
                     <button class="btn" id="button{{x+1}}" onclick="reveal('answer{{x+1}}','button{{x+1}}','warning{{x+1}}','warning2{{x+1}}')">Reveal</button>
-                    <p class="answer" id="answer{{x+1}}"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu molestie nibh, quis accumsan urna. Praesent lorem felis, elementum scelerisque faucibus a, pharetra a purus. Morbi nisi purus, placerat at. </p>
+                    <h4 class="answer" id="answer{{x+1}}"> {{data[y][2]}} </h4>
                 </div>
             </div>
         </div>

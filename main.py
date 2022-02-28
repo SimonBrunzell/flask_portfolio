@@ -7,9 +7,10 @@ import random
 
 from subjects import subjects
 import math
-
+import pandas as pd
 from aboutus import aboutus
-
+from userNotes import userNotes
+from sanjay_createTask import recommendation
 
 # create a Flask instance
 from __init__ import app
@@ -20,7 +21,7 @@ app.register_blueprint(subjects)
 
 app.register_blueprint(aboutus)
 
-
+app.register_blueprint(userNotes)
 # connects default URL to render index.html
 @app.route('/')
 def index():
@@ -48,7 +49,9 @@ def planner():
 # runs the application on the development server
 @app.route('/flashcards/')
 def flashcards():
-    return render_template('flashcards.html')
+    testVar = requests.get('http://127.0.0.1:5002/getNotes')
+    output = testVar.json()
+    return render_template('flashcards.html',data=output)
 
 @app.route('/compscitools/')
 def compscitools():
@@ -116,6 +119,16 @@ def challenges_calc():
                 break
 
     return render_template("challenges.html",number = number, even = even, prime=prime)
+
+@app.route("/sanjay_createTask/", methods=["GET","POST"])
+def sanjay_createTask():
+    genres = []
+    if request.form:
+        genres = request.form.getlist("genre")
+    output = recommendation(genres)
+    print(output)
+    data = pd.read_csv("movieData/movies.csv")
+    return render_template("sanjay_createTask.html",output=output,movies = json.dumps(data["title"].to_list()))
 
 @app.route("/mcq/")
 def mcq():
