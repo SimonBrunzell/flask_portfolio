@@ -1,0 +1,52 @@
+<!-- Extending the predefined project layout -->
+{% extends "layouts/base.html" %}
+
+<!- This variable sets name of browser tab  -->
+{% set project = "AP European History" %}
+
+<!- This is a replacement block for Body in base.html -->
+{% block body %}
+    <div id="game" class="container" style="border: black">
+        <div class="row">
+            <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+            <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+
+            <!-- Force next columns to break to new line -->
+            <div class="w-100"></div>
+
+            <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+            <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+
+            <div class="w-100"></div>
+
+            <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+            <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+        </div>
+    </div>
+
+    <script>
+
+    </script>
+
+
+    <style>
+        p {
+            margin-left: 250px;
+        }
+        img {
+            margin-left: 250px;
+            width: 207px;
+            height: 368px;
+        }
+        button {
+            margin-left: 250px;
+        }
+        game {
+            margin-left: 250px;
+        }
+    </style>
+{% endblock %}
+
+<!- This is turning off birds background from base.html -->
+{% block background %}
+{% endblock %}
