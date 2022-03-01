@@ -205,7 +205,7 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
         <div style="display: flex;" class="search">
             <input type="text" class="form-control" id="term" placeholder="enter search term" autocomplete="off">
             <label></label> <!-- used for spacer -->
-            <button id="search_button_clicker" type="submit" onclick="search_data();"><img class="search-icon" src="/static/assets/search.svg" alt="search"></button>
+            <button id="search_button_clicker" type="submit" onclick="searchNotes();"><img class="search-icon" src="/static/assets/search.svg" alt="search"></button>
         </div>
         <div class="container" >
         <div class="row" id="result"></div>
@@ -298,54 +298,68 @@ This HTML is setup as a fragment allowing it to be "included" by other HTML file
                 console.log("hidden")
             }
         }
-
-        function search_data() {
-            // fetch standard requires data set to a name-value pair
-            const term = document.getElementById("term");
-            const body = {
-                term: term.value
-            };
-            console.log(body)
-
-
-            // fetch call with header options
-            fetch('/crud/search/term/', {
-                method: "POST",
-                credentials: "include",
-                body: JSON.stringify(body),
-                cache: "no-cache",
-                headers: new Headers({
-                    "content-type": "application/json"
-                })
-            })
-                // async then replies with response header
-                .then(function (response) {
-                    // prepare HTML search result container for new output
-                    const resultContainer = document.getElementById("result");
-                    // clean up from previous search
-                    while (resultContainer.firstChild) {
-                        resultContainer.removeChild(resultContainer.firstChild);
-                    }
-                    // trap error response from Web API
-                    if (response.status !== 200) {
-                        const errorMsg = 'Database response error: ' + response.status;
-                        console.log(errorMsg);
+        function searchNotes() {
+            term = document.getElementById("term").value;
+            const resultsContainer = document.getElementById("result")
+            resultsContainer.innerHTML = ""
+            fetch('http://127.0.0.1:5002/getNotes?search='+term)
+                .then(response =>{
+                    return response.json();
+                }).then(data =>{
+                    for (var key in data) {
                         const div = document.createElement("div");
-                        div.innerHTML = errorMsg;
-                        resultContainer.appendChild(div);
-                        return;
+                        div.innerHTML ="<span>" +  data[key][0] + "</span> <span>"+ data[key][1] + "</span> <span>" + data[key][2] + "</span>"
+                        resultsContainer.appendChild(div)
                     }
-                    // response contains valid result
-                    response.json().then(function(data) {
-                        // loop through JSON and build HTML output
-                        for (let i = 0; i < data.length; i++) {
-                            const div = document.createElement("div");
-                            div.innerHTML = "<span>" + data[i].name + "</span>" +  ' ' + "<span>" +data[i].email + "</span>" + ' '+ "<span>" + data[i].phone + "</span>";
-                            resultContainer.appendChild(div);
-                        }
-                    })
                 })
         }
+        // function search_data() {
+        //     // fetch standard requires data set to a name-value pair
+        //     const term = document.getElementById("term");
+        //     const body = {
+        //         term: term.value
+        //     };
+        //     console.log(body)
+
+
+        //     // fetch call with header options
+        //     fetch('/crud/search/term/', {
+        //         method: "POST",
+        //         credentials: "include",
+        //         body: JSON.stringify(body),
+        //         cache: "no-cache",
+        //         headers: new Headers({
+        //             "content-type": "application/json"
+        //         })
+        //     })
+        //         // async then replies with response header
+        //         .then(function (response) {
+        //             // prepare HTML search result container for new output
+        //             const resultContainer = document.getElementById("result");
+        //             // clean up from previous search
+        //             while (resultContainer.firstChild) {
+        //                 resultContainer.removeChild(resultContainer.firstChild);
+        //             }
+        //             // trap error response from Web API
+        //             if (response.status !== 200) {
+        //                 const errorMsg = 'Database response error: ' + response.status;
+        //                 console.log(errorMsg);
+        //                 const div = document.createElement("div");
+        //                 div.innerHTML = errorMsg;
+        //                 resultContainer.appendChild(div);
+        //                 return;
+        //             }
+        //             // response contains valid result
+        //             response.json().then(function(data) {
+        //                 // loop through JSON and build HTML output
+        //                 for (let i = 0; i < data.length; i++) {
+        //                     const div = document.createElement("div");
+        //                     div.innerHTML = "<span>" + data[i].name + "</span>" +  ' ' + "<span>" +data[i].email + "</span>" + ' '+ "<span>" + data[i].phone + "</span>";
+        //                     resultContainer.appendChild(div);
+        //                 }
+        //             })
+        //         })
+        // }
         term.addEventListener("keyup", function(search_data) {
             if (search_data.keyCode == 13) {
                 document.getElementById("search_button_clicker").click();

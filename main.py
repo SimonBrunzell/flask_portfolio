@@ -140,7 +140,7 @@ def challenges_calc():
             if number % x ==0:
                 prime = False
                 break
-
+                                                                     
     return render_template("challenges.html",number = number, even = even, prime=prime)
 
 @app.route("/sanjay_createTask/", methods=["GET","POST"])
